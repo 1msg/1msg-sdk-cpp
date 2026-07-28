@@ -23,7 +23,6 @@
 
 #include "one-msg-chat-api/ModelBase.h"
 
-#include "one-msg-chat-api/model/CreateCommerce_request_params.h"
 #include "one-msg-chat-api/AnyType.h"
 #include <map>
 #include <cpprest/json.h>
@@ -57,10 +56,10 @@ public:
     /// CreateCommerce_request members
 
 
-    std::shared_ptr<CreateCommerce_request_params> getParams() const;
+    std::map<utility::string_t, std::shared_ptr<AnyType>> getParams() const;
     bool paramsIsSet() const;
     void unsetParams();
-    void setParams(const std::shared_ptr<CreateCommerce_request_params>& value);
+    void setParams(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value);
 
 
     /// <summary>
@@ -79,7 +78,7 @@ public:
     void addAdditionalProperty(const utility::string_t& key, const web::json::value& value);
 
 protected:
-    std::shared_ptr<CreateCommerce_request_params> m_Params;
+    std::map<utility::string_t, std::shared_ptr<AnyType>> m_Params;
     bool m_ParamsIsSet;
 
     std::map<utility::string_t, web::json::value> m_AdditionalProperties;

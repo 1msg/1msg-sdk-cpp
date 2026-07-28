@@ -28,7 +28,6 @@
 #include <cpprest/details/basic_types.h>
 #include <map>
 #include <cpprest/json.h>
-#include <vector>
 
 namespace onemsg {
 namespace chat {
@@ -61,19 +60,12 @@ public:
     enum class CountryEnum
     {
         IN,
-        SG,
     };
-    /// <summary>
-    /// Address form country. Defaults to IN if omitted.
-    /// </summary>
 
     CountryEnum toCountryEnum(const utility::string_t& value) const;
     const utility::string_t fromCountryEnum(const CountryEnum value) const;
 
 
-    /// <summary>
-    /// Recipient phone (E.164 digits, no +). Must match country.
-    /// </summary>
     int32_t getPhone() const;
     bool phoneIsSet() const;
     void unsetPhone();
@@ -84,45 +76,15 @@ public:
     void unsetChatId();
     void setChatId(const utility::string_t& value);
 
-    /// <summary>
-    /// Body text shown with the address request
-    /// </summary>
     utility::string_t getBody() const;
     bool bodyIsSet() const;
     void unsetBody();
     void setBody(const utility::string_t& value);
 
-    /// <summary>
-    /// Address form country. Defaults to IN if omitted.
-    /// </summary>
     CountryEnum getCountry() const;
     bool countryIsSet() const;
     void unsetCountry();
     void setCountry(const CountryEnum value);
-
-    /// <summary>
-    /// Optional prefilled address fields
-    /// </summary>
-    std::map<utility::string_t, std::shared_ptr<AnyType>> getValues() const;
-    bool valuesIsSet() const;
-    void unsetValues();
-    void setValues(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value);
-
-    /// <summary>
-    /// Optional previously saved addresses for the user
-    /// </summary>
-    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> getSavedAddresses() const;
-    bool savedAddressesIsSet() const;
-    void unsetSaved_addresses();
-    void setSavedAddresses(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value);
-
-    /// <summary>
-    /// Optional field validation errors when re-prompting
-    /// </summary>
-    std::map<utility::string_t, std::shared_ptr<AnyType>> getValidationErrors() const;
-    bool validationErrorsIsSet() const;
-    void unsetValidation_errors();
-    void setValidationErrors(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value);
 
     utility::string_t getQuotedMsgId() const;
     bool quotedMsgIdIsSet() const;
@@ -157,15 +119,6 @@ protected:
 
     CountryEnum m_Country;
     bool m_CountryIsSet;
-
-    std::map<utility::string_t, std::shared_ptr<AnyType>> m_Values;
-    bool m_ValuesIsSet;
-
-    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> m_Saved_addresses;
-    bool m_Saved_addressesIsSet;
-
-    std::map<utility::string_t, std::shared_ptr<AnyType>> m_Validation_errors;
-    bool m_Validation_errorsIsSet;
 
     utility::string_t m_QuotedMsgId;
     bool m_QuotedMsgIdIsSet;

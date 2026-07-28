@@ -153,7 +153,7 @@ public:
     /// Send address request message
     /// </summary>
     /// <remarks>
-    /// Request shipping address from the user (WhatsApp interactive &#x60;address_message&#x60;).  **India and Singapore only.** Requires: - Business WhatsApp number registered in that country - Recipient phone matching the country (&#x60;+91&#x60; ↔ &#x60;IN&#x60;, &#x60;+65&#x60; ↔ &#x60;SG&#x60;)  Pass &#x60;country: \&quot;IN\&quot;&#x60; or &#x60;country: \&quot;SG\&quot;&#x60;. Eligibility is validated upstream; mismatches (e.g. Singapore phone with &#x60;country: \&quot;IN\&quot;&#x60;) return errors such as &#x60;Unsupported Interactive Message type&#x60; (HTTP 200 with &#x60;sent: false&#x60;).  Optional action parameters: &#x60;values&#x60;, &#x60;saved_addresses&#x60;, &#x60;validation_errors&#x60;. 
+    /// Request shipping address from user (India only).
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
     /// <param name="sendAddressMessageRequest"></param>
@@ -352,10 +352,10 @@ public:
         boost::optional<int32_t> phone
     ) const;
     /// <summary>
-    /// Send order details (India payments template)
+    /// Send order details template message
     /// </summary>
     /// <remarks>
-    /// Send a WhatsApp **order details** payment / invoice message using a pre-approved **Utility** template that has an &#x60;ORDER_DETAILS&#x60; button.  **India only** (WhatsApp Payments India). Requires: - India WhatsApp Business number - Commerce enabled on the channel (&#x60;GET&#x60;/&#x60;POST /commerce&#x60;) - Approved template with an &#x60;ORDER_DETAILS&#x60; button  Use this method when you need structured fields (&#x60;order&#x60;, &#x60;referenceId&#x60;, &#x60;currency&#x60;, &#x60;paymentSettings&#x60;). The API appends a template button &#x60;sub_type: order_details&#x60; and sends via the same path as &#x60;POST /sendTemplate&#x60;.  Works **outside the 24-hour session window** (template message).  You can also send the same payload yourself with &#x60;POST /sendTemplate&#x60; by including a button component in &#x60;params&#x60;:  &#x60;&#x60;&#x60;json {   \&quot;type\&quot;: \&quot;button\&quot;,   \&quot;sub_type\&quot;: \&quot;order_details\&quot;,   \&quot;index\&quot;: 0,   \&quot;parameters\&quot;: [{     \&quot;type\&quot;: \&quot;action\&quot;,     \&quot;action\&quot;: {       \&quot;order_details\&quot;: {         \&quot;reference_id\&quot;: \&quot;order-123\&quot;,         \&quot;currency\&quot;: \&quot;INR\&quot;,         \&quot;order\&quot;: { \&quot;status\&quot;: \&quot;pending\&quot;, \&quot;items\&quot;: [], \&quot;subtotal\&quot;: { \&quot;offset\&quot;: 100, \&quot;value\&quot;: 50000 } }       }     }   }] } &#x60;&#x60;&#x60; 
+    /// Send a WhatsApp order_details template (payments flow). Requires commerce-enabled channel and a pre-approved order_details template. Region/product gates apply. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
     /// <param name="sendOrderDetailsRequest"></param>

@@ -57,25 +57,16 @@ public:
     /// GetCommerce_200_response_inner members
 
 
-    /// <summary>
-    /// Catalog id
-    /// </summary>
     utility::string_t getId() const;
     bool idIsSet() const;
     void unsetId();
     void setId(const utility::string_t& value);
 
-    /// <summary>
-    /// Whether the cart is enabled
-    /// </summary>
     bool isIsCartEnabled() const;
     bool isCartEnabledIsSet() const;
     void unsetIs_cart_enabled();
     void setIsCartEnabled(bool value);
 
-    /// <summary>
-    /// Whether the catalog storefront icon is shown
-    /// </summary>
     bool isIsCatalogVisible() const;
     bool isCatalogVisibleIsSet() const;
     void unsetIs_catalog_visible();

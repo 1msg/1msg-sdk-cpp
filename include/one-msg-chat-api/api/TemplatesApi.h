@@ -86,7 +86,7 @@ public:
     /// Send Template Message
     /// </summary>
     /// <remarks>
-    /// Send a WhatsApp template message (works outside the 24-hour session window).  Supported &#x60;params&#x60; button &#x60;sub_type&#x60; values include: &#x60;url&#x60;, &#x60;quick_reply&#x60;, &#x60;copy_code&#x60; / &#x60;coupon_code&#x60;, &#x60;catalog&#x60;, &#x60;flow&#x60;, &#x60;limited_time_offer&#x60;, and **&#x60;order_details&#x60;** (WhatsApp Payments **India only** — requires an approved Utility template with an ORDER_DETAILS button).  For India order/invoice payments outside 24h, include a button component:  &#x60;&#x60;&#x60;json {   \&quot;type\&quot;: \&quot;button\&quot;,   \&quot;sub_type\&quot;: \&quot;order_details\&quot;,   \&quot;index\&quot;: 0,   \&quot;parameters\&quot;: [{     \&quot;type\&quot;: \&quot;action\&quot;,     \&quot;action\&quot;: { \&quot;order_details\&quot;: { \&quot;reference_id\&quot;: \&quot;...\&quot;, \&quot;currency\&quot;: \&quot;INR\&quot;, \&quot;order\&quot;: {} } }   }] } &#x60;&#x60;&#x60;  Convenience wrapper with structured fields: &#x60;POST /sendOrderDetails&#x60;. 
+    /// 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
     /// <param name="sendTemplateRequest"> (optional)</param>

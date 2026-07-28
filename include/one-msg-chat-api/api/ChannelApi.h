@@ -24,9 +24,12 @@
 #include "one-msg-chat-api/ApiClient.h"
 
 #include "one-msg-chat-api/AnyType.h"
-#include "one-msg-chat-api/model/ConversationalAutomation.h"
+#include "one-msg-chat-api/model/CreateCommerce_200_response.h"
+#include "one-msg-chat-api/model/CreateCommerce_request.h"
 #include "one-msg-chat-api/model/ErrorResponse.h"
+#include "one-msg-chat-api/model/GetCommerce_200_response_inner.h"
 #include <map>
+#include <vector>
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 
@@ -47,13 +50,35 @@ public:
     virtual ~ChannelApi();
 
     /// <summary>
+    /// Set Commerce Settings
+    /// </summary>
+    /// <remarks>
+    /// Update catalog/cart commerce settings (&#x60;params&#x60; object). Blocked when the channel subscription limit is exceeded. Requires commerce-capable channel (Cloud Functions &#x60;/commerceWAV2&#x60;). 
+    /// </remarks>
+    /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="createCommerceRequest"> (optional)</param>
+    pplx::task<std::shared_ptr<CreateCommerce_200_response>> createCommerce(
+        utility::string_t token,
+        boost::optional<std::shared_ptr<CreateCommerce_request>> createCommerceRequest
+    ) const;
+    /// <summary>
+    /// Get Commerce Settings
+    /// </summary>
+    /// <remarks>
+    /// Returns catalog/cart commerce settings for the channel. &#x60;is_catalog_visible&#x60; — show catalog storefront icon. &#x60;is_cart_enabled&#x60; — enable cart. 
+    /// </remarks>
+    /// <param name="token">JWT token or API key for authorization</param>
+    pplx::task<std::vector<std::shared_ptr<GetCommerce_200_response_inner>>> getCommerce(
+        utility::string_t token
+    ) const;
+    /// <summary>
     /// Get conversational automation settings
     /// </summary>
     /// <remarks>
-    /// Get WhatsApp conversational components for the channel (welcome message, ice-breaker prompts, and slash commands).  Proxies Meta/360dialog &#x60;GET /conversational_automation&#x60;.  When &#x60;enable_welcome_message&#x60; is true and a user opens chat for the first time, Meta delivers a webhook message with &#x60;type: request_welcome&#x60;. The inbound formatter exposes that as &#x60;type: \&quot;request_welcome\&quot;&#x60; and &#x60;meta.request_welcome: true&#x60; so your webhook can send a custom welcome reply. 
+    /// Proxy to WABA conversational_automation. Path verified per channel/provider.
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
-    pplx::task<std::shared_ptr<ConversationalAutomation>> getConversationalAutomation(
+    pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> getConversationalAutomation(
         utility::string_t token
     ) const;
     /// <summary>
@@ -70,13 +95,13 @@ public:
     /// Set conversational automation settings
     /// </summary>
     /// <remarks>
-    /// Update WhatsApp conversational components.  Allowed body fields (others are ignored): - &#x60;enable_welcome_message&#x60; (boolean) - &#x60;prompts&#x60; (string[], max 4, each ≤ 80 chars) - &#x60;commands&#x60; (&#x60;{ command_name, command_description }[]&#x60;)  Proxies Meta/360dialog &#x60;POST /conversational_automation&#x60;. 
+    /// Update WABA conversational_automation settings.
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
-    /// <param name="conversationalAutomation"></param>
+    /// <param name="requestBody"> (optional)</param>
     pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> setConversationalAutomation(
         utility::string_t token,
-        std::shared_ptr<ConversationalAutomation> conversationalAutomation
+        boost::optional<std::map<utility::string_t, std::shared_ptr<AnyType>>> requestBody
     ) const;
 
 protected:

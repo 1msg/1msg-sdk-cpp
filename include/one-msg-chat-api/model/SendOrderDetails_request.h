@@ -24,9 +24,7 @@
 #include "one-msg-chat-api/ModelBase.h"
 
 #include "one-msg-chat-api/AnyType.h"
-#include "one-msg-chat-api/model/SendOrderDetails_request_language.h"
 #include <cpprest/details/basic_types.h>
-#include "one-msg-chat-api/model/SendOrderDetails_request_order.h"
 #include <map>
 #include <cpprest/json.h>
 #include <vector>
@@ -60,79 +58,55 @@ public:
     /// SendOrderDetails_request members
 
 
-    /// <summary>
-    /// Recipient phone (India E.164 digits, no +). Use phone or chatId.
-    /// </summary>
     int32_t getPhone() const;
     bool phoneIsSet() const;
     void unsetPhone();
     void setPhone(int32_t value);
 
-    /// <summary>
-    /// Recipient chatId (e.g. phone@c.us). Use phone or chatId.
-    /// </summary>
     utility::string_t getChatId() const;
     bool chatIdIsSet() const;
     void unsetChatId();
     void setChatId(const utility::string_t& value);
 
-    /// <summary>
-    /// Approved Utility template name that includes an ORDER_DETAILS button
-    /// </summary>
     utility::string_t getRTemplate() const;
     bool rTemplateIsSet() const;
     void unsetr_template();
     void setRTemplate(const utility::string_t& value);
 
-    /// <summary>
-    /// Template namespace from the channel / template list
-    /// </summary>
     utility::string_t getRNamespace() const;
     bool rNamespaceIsSet() const;
     void unsetr_namespace();
     void setRNamespace(const utility::string_t& value);
 
-    std::shared_ptr<SendOrderDetails_request_language> getLanguage() const;
+    std::map<utility::string_t, std::shared_ptr<AnyType>> getLanguage() const;
     bool languageIsSet() const;
     void unsetLanguage();
-    void setLanguage(const std::shared_ptr<SendOrderDetails_request_language>& value);
+    void setLanguage(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value);
 
-    /// <summary>
-    /// Extra template components (HEADER / BODY / etc.). If an order_details button is missing, the API appends one from order / referenceId / currency / paymentSettings. 
-    /// </summary>
     std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> getParams() const;
     bool paramsIsSet() const;
     void unsetParams();
     void setParams(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value);
 
-    /// <summary>
-    /// Unique order / payment reference id (maps to reference_id)
-    /// </summary>
+    std::map<utility::string_t, std::shared_ptr<AnyType>> getOrder() const;
+    bool orderIsSet() const;
+    void unsetOrder();
+    void setOrder(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value);
+
     utility::string_t getReferenceId() const;
     bool referenceIdIsSet() const;
     void unsetReferenceId();
     void setReferenceId(const utility::string_t& value);
 
-    /// <summary>
-    /// Currency code for India payments
-    /// </summary>
-    utility::string_t getCurrency() const;
-    bool currencyIsSet() const;
-    void unsetCurrency();
-    void setCurrency(const utility::string_t& value);
-
-    /// <summary>
-    /// Optional payment settings (UPI / payment gateway / payment link). Forwarded as payment_settings on the order_details action. 
-    /// </summary>
     std::map<utility::string_t, std::shared_ptr<AnyType>> getPaymentSettings() const;
     bool paymentSettingsIsSet() const;
     void unsetPaymentSettings();
     void setPaymentSettings(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value);
 
-    std::shared_ptr<SendOrderDetails_request_order> getOrder() const;
-    bool orderIsSet() const;
-    void unsetOrder();
-    void setOrder(const std::shared_ptr<SendOrderDetails_request_order>& value);
+    utility::string_t getCurrency() const;
+    bool currencyIsSet() const;
+    void unsetCurrency();
+    void setCurrency(const utility::string_t& value);
 
 
     /// <summary>
@@ -163,23 +137,23 @@ protected:
     utility::string_t m_r_namespace;
     bool m_r_namespaceIsSet;
 
-    std::shared_ptr<SendOrderDetails_request_language> m_Language;
+    std::map<utility::string_t, std::shared_ptr<AnyType>> m_Language;
     bool m_LanguageIsSet;
 
     std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> m_Params;
     bool m_ParamsIsSet;
 
+    std::map<utility::string_t, std::shared_ptr<AnyType>> m_Order;
+    bool m_OrderIsSet;
+
     utility::string_t m_ReferenceId;
     bool m_ReferenceIdIsSet;
-
-    utility::string_t m_Currency;
-    bool m_CurrencyIsSet;
 
     std::map<utility::string_t, std::shared_ptr<AnyType>> m_PaymentSettings;
     bool m_PaymentSettingsIsSet;
 
-    std::shared_ptr<SendOrderDetails_request_order> m_Order;
-    bool m_OrderIsSet;
+    utility::string_t m_Currency;
+    bool m_CurrencyIsSet;
 
     std::map<utility::string_t, web::json::value> m_AdditionalProperties;
     bool m_AdditionalPropertiesIsSet;

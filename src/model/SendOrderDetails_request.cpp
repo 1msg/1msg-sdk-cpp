@@ -30,12 +30,12 @@ SendOrderDetails_request::SendOrderDetails_request()
     m_r_namespaceIsSet = false;
     m_LanguageIsSet = false;
     m_ParamsIsSet = false;
+    m_OrderIsSet = false;
     m_ReferenceId = utility::conversions::to_string_t("");
     m_ReferenceIdIsSet = false;
+    m_PaymentSettingsIsSet = false;
     m_Currency = utility::conversions::to_string_t("");
     m_CurrencyIsSet = false;
-    m_PaymentSettingsIsSet = false;
-    m_OrderIsSet = false;
     m_AdditionalPropertiesIsSet = false;
 }
 
@@ -81,25 +81,25 @@ web::json::value SendOrderDetails_request::toJson() const
         
         val[utility::conversions::to_string_t(_XPLATSTR("params"))] = ModelBase::toJson(m_Params);
     }
+    if(m_OrderIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("order"))] = ModelBase::toJson(m_Order);
+    }
     if(m_ReferenceIdIsSet)
     {
         
         val[utility::conversions::to_string_t(_XPLATSTR("referenceId"))] = ModelBase::toJson(m_ReferenceId);
-    }
-    if(m_CurrencyIsSet)
-    {
-        
-        val[utility::conversions::to_string_t(_XPLATSTR("currency"))] = ModelBase::toJson(m_Currency);
     }
     if(m_PaymentSettingsIsSet)
     {
         
         val[utility::conversions::to_string_t(_XPLATSTR("paymentSettings"))] = ModelBase::toJson(m_PaymentSettings);
     }
-    if(m_OrderIsSet)
+    if(m_CurrencyIsSet)
     {
         
-        val[utility::conversions::to_string_t(_XPLATSTR("order"))] = ModelBase::toJson(m_Order);
+        val[utility::conversions::to_string_t(_XPLATSTR("currency"))] = ModelBase::toJson(m_Currency);
     }
     // Serialize additional properties
     if(m_AdditionalPropertiesIsSet)
@@ -165,7 +165,7 @@ bool SendOrderDetails_request::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("language")));
         if(!fieldValue.is_null())
         {
-            std::shared_ptr<SendOrderDetails_request_language> refVal_setLanguage;
+            std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setLanguage;
             ok &= ModelBase::fromJson(fieldValue, refVal_setLanguage);
             setLanguage(refVal_setLanguage);
             
@@ -182,6 +182,17 @@ bool SendOrderDetails_request::fromJson(const web::json::value& val)
             
         }
     }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("order"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("order")));
+        if(!fieldValue.is_null())
+        {
+            std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setOrder;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setOrder);
+            setOrder(refVal_setOrder);
+            
+        }
+    }
     if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("referenceId"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("referenceId")));
@@ -190,17 +201,6 @@ bool SendOrderDetails_request::fromJson(const web::json::value& val)
             utility::string_t refVal_setReferenceId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setReferenceId);
             setReferenceId(refVal_setReferenceId);
-            
-        }
-    }
-    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("currency"))))
-    {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("currency")));
-        if(!fieldValue.is_null())
-        {
-            utility::string_t refVal_setCurrency;
-            ok &= ModelBase::fromJson(fieldValue, refVal_setCurrency);
-            setCurrency(refVal_setCurrency);
             
         }
     }
@@ -215,14 +215,14 @@ bool SendOrderDetails_request::fromJson(const web::json::value& val)
             
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("order"))))
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("currency"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("order")));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("currency")));
         if(!fieldValue.is_null())
         {
-            std::shared_ptr<SendOrderDetails_request_order> refVal_setOrder;
-            ok &= ModelBase::fromJson(fieldValue, refVal_setOrder);
-            setOrder(refVal_setOrder);
+            utility::string_t refVal_setCurrency;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setCurrency);
+            setCurrency(refVal_setCurrency);
             
         }
     }
@@ -238,10 +238,10 @@ bool SendOrderDetails_request::fromJson(const web::json::value& val)
             if(item.first == utility::conversions::to_string_t(_XPLATSTR("namespace"))) continue;
             if(item.first == utility::conversions::to_string_t(_XPLATSTR("language"))) continue;
             if(item.first == utility::conversions::to_string_t(_XPLATSTR("params"))) continue;
-            if(item.first == utility::conversions::to_string_t(_XPLATSTR("referenceId"))) continue;
-            if(item.first == utility::conversions::to_string_t(_XPLATSTR("currency"))) continue;
-            if(item.first == utility::conversions::to_string_t(_XPLATSTR("paymentSettings"))) continue;
             if(item.first == utility::conversions::to_string_t(_XPLATSTR("order"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("referenceId"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("paymentSettings"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("currency"))) continue;
             // This is an additional property
             m_AdditionalProperties[item.first] = item.second;
             m_AdditionalPropertiesIsSet = true;
@@ -281,21 +281,21 @@ void SendOrderDetails_request::toMultipart(std::shared_ptr<MultipartFormData> mu
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("params")), m_Params));
     }
+    if(m_OrderIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("order")), m_Order));
+    }
     if(m_ReferenceIdIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("referenceId")), m_ReferenceId));
-    }
-    if(m_CurrencyIsSet)
-    {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("currency")), m_Currency));
     }
     if(m_PaymentSettingsIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("paymentSettings")), m_PaymentSettings));
     }
-    if(m_OrderIsSet)
+    if(m_CurrencyIsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("order")), m_Order));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("currency")), m_Currency));
     }
 }
 
@@ -334,7 +334,7 @@ bool SendOrderDetails_request::fromMultiPart(std::shared_ptr<MultipartFormData> 
     }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("language"))))
     {
-        std::shared_ptr<SendOrderDetails_request_language> refVal_setLanguage;
+        std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setLanguage;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("language"))), refVal_setLanguage );
         setLanguage(refVal_setLanguage);
     }
@@ -344,17 +344,17 @@ bool SendOrderDetails_request::fromMultiPart(std::shared_ptr<MultipartFormData> 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("params"))), refVal_setParams );
         setParams(refVal_setParams);
     }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("order"))))
+    {
+        std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setOrder;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("order"))), refVal_setOrder );
+        setOrder(refVal_setOrder);
+    }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("referenceId"))))
     {
         utility::string_t refVal_setReferenceId;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("referenceId"))), refVal_setReferenceId );
         setReferenceId(refVal_setReferenceId);
-    }
-    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("currency"))))
-    {
-        utility::string_t refVal_setCurrency;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("currency"))), refVal_setCurrency );
-        setCurrency(refVal_setCurrency);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("paymentSettings"))))
     {
@@ -362,11 +362,11 @@ bool SendOrderDetails_request::fromMultiPart(std::shared_ptr<MultipartFormData> 
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("paymentSettings"))), refVal_setPaymentSettings );
         setPaymentSettings(refVal_setPaymentSettings);
     }
-    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("order"))))
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("currency"))))
     {
-        std::shared_ptr<SendOrderDetails_request_order> refVal_setOrder;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("order"))), refVal_setOrder );
-        setOrder(refVal_setOrder);
+        utility::string_t refVal_setCurrency;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("currency"))), refVal_setCurrency );
+        setCurrency(refVal_setCurrency);
     }
     return ok;
 }
@@ -455,13 +455,13 @@ void SendOrderDetails_request::unsetr_namespace()
 {
     m_r_namespaceIsSet = false;
 }
-std::shared_ptr<SendOrderDetails_request_language> SendOrderDetails_request::getLanguage() const
+std::map<utility::string_t, std::shared_ptr<AnyType>> SendOrderDetails_request::getLanguage() const
 {
     return m_Language;
 }
 
 
-void SendOrderDetails_request::setLanguage(const std::shared_ptr<SendOrderDetails_request_language>& value)
+void SendOrderDetails_request::setLanguage(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value)
 {
     m_Language = value;
     m_LanguageIsSet = true;
@@ -497,6 +497,27 @@ void SendOrderDetails_request::unsetParams()
 {
     m_ParamsIsSet = false;
 }
+std::map<utility::string_t, std::shared_ptr<AnyType>> SendOrderDetails_request::getOrder() const
+{
+    return m_Order;
+}
+
+
+void SendOrderDetails_request::setOrder(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value)
+{
+    m_Order = value;
+    m_OrderIsSet = true;
+}
+
+bool SendOrderDetails_request::orderIsSet() const
+{
+    return m_OrderIsSet;
+}
+
+void SendOrderDetails_request::unsetOrder()
+{
+    m_OrderIsSet = false;
+}
 utility::string_t SendOrderDetails_request::getReferenceId() const
 {
     return m_ReferenceId;
@@ -517,27 +538,6 @@ bool SendOrderDetails_request::referenceIdIsSet() const
 void SendOrderDetails_request::unsetReferenceId()
 {
     m_ReferenceIdIsSet = false;
-}
-utility::string_t SendOrderDetails_request::getCurrency() const
-{
-    return m_Currency;
-}
-
-
-void SendOrderDetails_request::setCurrency(const utility::string_t& value)
-{
-    m_Currency = value;
-    m_CurrencyIsSet = true;
-}
-
-bool SendOrderDetails_request::currencyIsSet() const
-{
-    return m_CurrencyIsSet;
-}
-
-void SendOrderDetails_request::unsetCurrency()
-{
-    m_CurrencyIsSet = false;
 }
 std::map<utility::string_t, std::shared_ptr<AnyType>> SendOrderDetails_request::getPaymentSettings() const
 {
@@ -560,26 +560,26 @@ void SendOrderDetails_request::unsetPaymentSettings()
 {
     m_PaymentSettingsIsSet = false;
 }
-std::shared_ptr<SendOrderDetails_request_order> SendOrderDetails_request::getOrder() const
+utility::string_t SendOrderDetails_request::getCurrency() const
 {
-    return m_Order;
+    return m_Currency;
 }
 
 
-void SendOrderDetails_request::setOrder(const std::shared_ptr<SendOrderDetails_request_order>& value)
+void SendOrderDetails_request::setCurrency(const utility::string_t& value)
 {
-    m_Order = value;
-    m_OrderIsSet = true;
+    m_Currency = value;
+    m_CurrencyIsSet = true;
 }
 
-bool SendOrderDetails_request::orderIsSet() const
+bool SendOrderDetails_request::currencyIsSet() const
 {
-    return m_OrderIsSet;
+    return m_CurrencyIsSet;
 }
 
-void SendOrderDetails_request::unsetOrder()
+void SendOrderDetails_request::unsetCurrency()
 {
-    m_OrderIsSet = false;
+    m_CurrencyIsSet = false;
 }
 
 
