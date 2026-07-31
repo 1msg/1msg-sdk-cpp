@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/SendReaction_request.h"
+#include "one-msg-sdk/model/SendReaction_request.h"
 
 namespace onemsg {
 namespace chat {

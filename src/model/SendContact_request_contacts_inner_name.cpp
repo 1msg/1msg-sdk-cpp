@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/SendContact_request_contacts_inner_name.h"
+#include "one-msg-sdk/model/SendContact_request_contacts_inner_name.h"
 
 namespace onemsg {
 namespace chat {

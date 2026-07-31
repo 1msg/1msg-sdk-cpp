@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/SendAddressMessage_request.h"
+#include "one-msg-sdk/model/SendAddressMessage_request.h"
 
 namespace onemsg {
 namespace chat {
@@ -27,6 +27,9 @@ SendAddressMessage_request::SendAddressMessage_request()
     m_Body = utility::conversions::to_string_t("");
     m_BodyIsSet = false;
     m_CountryIsSet = false;
+    m_ValuesIsSet = false;
+    m_Saved_addressesIsSet = false;
+    m_Validation_errorsIsSet = false;
     m_QuotedMsgId = utility::conversions::to_string_t("");
     m_QuotedMsgIdIsSet = false;
     m_AdditionalPropertiesIsSet = false;
@@ -65,6 +68,21 @@ web::json::value SendAddressMessage_request::toJson() const
         utility::string_t refVal = fromCountryEnum(m_Country);
         val[utility::conversions::to_string_t(_XPLATSTR("country"))] = ModelBase::toJson(refVal);
         
+    }
+    if(m_ValuesIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("values"))] = ModelBase::toJson(m_Values);
+    }
+    if(m_Saved_addressesIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("saved_addresses"))] = ModelBase::toJson(m_Saved_addresses);
+    }
+    if(m_Validation_errorsIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("validation_errors"))] = ModelBase::toJson(m_Validation_errors);
     }
     if(m_QuotedMsgIdIsSet)
     {
@@ -131,6 +149,39 @@ bool SendAddressMessage_request::fromJson(const web::json::value& val)
             
         }
     }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("values"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("values")));
+        if(!fieldValue.is_null())
+        {
+            std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setValues;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setValues);
+            setValues(refVal_setValues);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("saved_addresses"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("saved_addresses")));
+        if(!fieldValue.is_null())
+        {
+            std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setSavedAddresses;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setSavedAddresses);
+            setSavedAddresses(refVal_setSavedAddresses);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("validation_errors"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("validation_errors")));
+        if(!fieldValue.is_null())
+        {
+            std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setValidationErrors;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setValidationErrors);
+            setValidationErrors(refVal_setValidationErrors);
+            
+        }
+    }
     if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId")));
@@ -152,6 +203,9 @@ bool SendAddressMessage_request::fromJson(const web::json::value& val)
             if(item.first == utility::conversions::to_string_t(_XPLATSTR("chatId"))) continue;
             if(item.first == utility::conversions::to_string_t(_XPLATSTR("body"))) continue;
             if(item.first == utility::conversions::to_string_t(_XPLATSTR("country"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("values"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("saved_addresses"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("validation_errors"))) continue;
             if(item.first == utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))) continue;
             // This is an additional property
             m_AdditionalProperties[item.first] = item.second;
@@ -183,6 +237,18 @@ void SendAddressMessage_request::toMultipart(std::shared_ptr<MultipartFormData> 
     if(m_CountryIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("country")), fromCountryEnum(m_Country)));
+    }
+    if(m_ValuesIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("values")), m_Values));
+    }
+    if(m_Saved_addressesIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("saved_addresses")), m_Saved_addresses));
+    }
+    if(m_Validation_errorsIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("validation_errors")), m_Validation_errors));
     }
     if(m_QuotedMsgIdIsSet)
     {
@@ -223,6 +289,24 @@ bool SendAddressMessage_request::fromMultiPart(std::shared_ptr<MultipartFormData
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("country"))), refVal_setCountry );
         setCountry(toCountryEnum(refVal_setCountry));
     }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("values"))))
+    {
+        std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setValues;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("values"))), refVal_setValues );
+        setValues(refVal_setValues);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("saved_addresses"))))
+    {
+        std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setSavedAddresses;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("saved_addresses"))), refVal_setSavedAddresses );
+        setSavedAddresses(refVal_setSavedAddresses);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("validation_errors"))))
+    {
+        std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setValidationErrors;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("validation_errors"))), refVal_setValidationErrors );
+        setValidationErrors(refVal_setValidationErrors);
+    }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))))
     {
         utility::string_t refVal_setQuotedMsgId;
@@ -239,6 +323,10 @@ SendAddressMessage_request::CountryEnum SendAddressMessage_request::toCountryEnu
         return CountryEnum::IN;
     }
     
+    if (value == utility::conversions::to_string_t("SG")) {
+        return CountryEnum::SG;
+    }
+    
     throw std::invalid_argument("Invalid value for conversion to CountryEnum");
 }
 
@@ -249,6 +337,8 @@ const utility::string_t SendAddressMessage_request::fromCountryEnum(const Countr
     {
         
         case CountryEnum::IN: return utility::conversions::to_string_t("IN");
+        
+        case CountryEnum::SG: return utility::conversions::to_string_t("SG");
         
     }
 }
@@ -336,6 +426,69 @@ bool SendAddressMessage_request::countryIsSet() const
 void SendAddressMessage_request::unsetCountry()
 {
     m_CountryIsSet = false;
+}
+std::map<utility::string_t, std::shared_ptr<AnyType>> SendAddressMessage_request::getValues() const
+{
+    return m_Values;
+}
+
+
+void SendAddressMessage_request::setValues(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value)
+{
+    m_Values = value;
+    m_ValuesIsSet = true;
+}
+
+bool SendAddressMessage_request::valuesIsSet() const
+{
+    return m_ValuesIsSet;
+}
+
+void SendAddressMessage_request::unsetValues()
+{
+    m_ValuesIsSet = false;
+}
+std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> SendAddressMessage_request::getSavedAddresses() const
+{
+    return m_Saved_addresses;
+}
+
+
+void SendAddressMessage_request::setSavedAddresses(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value)
+{
+    m_Saved_addresses = value;
+    m_Saved_addressesIsSet = true;
+}
+
+bool SendAddressMessage_request::savedAddressesIsSet() const
+{
+    return m_Saved_addressesIsSet;
+}
+
+void SendAddressMessage_request::unsetSaved_addresses()
+{
+    m_Saved_addressesIsSet = false;
+}
+std::map<utility::string_t, std::shared_ptr<AnyType>> SendAddressMessage_request::getValidationErrors() const
+{
+    return m_Validation_errors;
+}
+
+
+void SendAddressMessage_request::setValidationErrors(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value)
+{
+    m_Validation_errors = value;
+    m_Validation_errorsIsSet = true;
+}
+
+bool SendAddressMessage_request::validationErrorsIsSet() const
+{
+    return m_Validation_errorsIsSet;
+}
+
+void SendAddressMessage_request::unsetValidation_errors()
+{
+    m_Validation_errorsIsSet = false;
 }
 utility::string_t SendAddressMessage_request::getQuotedMsgId() const
 {

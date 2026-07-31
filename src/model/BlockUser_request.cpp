@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/BlockUser_request.h"
+#include "one-msg-sdk/model/BlockUser_request.h"
 
 namespace onemsg {
 namespace chat {

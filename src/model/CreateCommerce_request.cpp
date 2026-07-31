@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/CreateCommerce_request.h"
+#include "one-msg-sdk/model/CreateCommerce_request.h"
 
 namespace onemsg {
 namespace chat {
@@ -61,7 +61,7 @@ bool CreateCommerce_request::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("params")));
         if(!fieldValue.is_null())
         {
-            std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setParams;
+            std::shared_ptr<CreateCommerce_request_params> refVal_setParams;
             ok &= ModelBase::fromJson(fieldValue, refVal_setParams);
             setParams(refVal_setParams);
             
@@ -106,7 +106,7 @@ bool CreateCommerce_request::fromMultiPart(std::shared_ptr<MultipartFormData> mu
 
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("params"))))
     {
-        std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setParams;
+        std::shared_ptr<CreateCommerce_request_params> refVal_setParams;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("params"))), refVal_setParams );
         setParams(refVal_setParams);
     }
@@ -114,13 +114,13 @@ bool CreateCommerce_request::fromMultiPart(std::shared_ptr<MultipartFormData> mu
 }
 
 
-std::map<utility::string_t, std::shared_ptr<AnyType>> CreateCommerce_request::getParams() const
+std::shared_ptr<CreateCommerce_request_params> CreateCommerce_request::getParams() const
 {
     return m_Params;
 }
 
 
-void CreateCommerce_request::setParams(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value)
+void CreateCommerce_request::setParams(const std::shared_ptr<CreateCommerce_request_params>& value)
 {
     m_Params = value;
     m_ParamsIsSet = true;

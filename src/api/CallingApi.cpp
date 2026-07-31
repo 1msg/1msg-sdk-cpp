@@ -11,10 +11,10 @@
  */
 
 
-#include "one-msg-chat-api/api/CallingApi.h"
-#include "one-msg-chat-api/IHttpBody.h"
-#include "one-msg-chat-api/JsonBody.h"
-#include "one-msg-chat-api/MultipartFormData.h"
+#include "one-msg-sdk/api/CallingApi.h"
+#include "one-msg-sdk/IHttpBody.h"
+#include "one-msg-sdk/JsonBody.h"
+#include "one-msg-sdk/MultipartFormData.h"
 
 #include <boost/algorithm/string/replace.hpp>
 

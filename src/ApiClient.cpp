@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 
-#include "one-msg-chat-api/ApiClient.h"
-#include "one-msg-chat-api/MultipartFormData.h"
-#include "one-msg-chat-api/ModelBase.h"
+#include "one-msg-sdk/ApiClient.h"
+#include "one-msg-sdk/MultipartFormData.h"
+#include "one-msg-sdk/ModelBase.h"
 
 #include <sstream>
 #include <limits>

@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/SetWhatsappBusinessEncryption_request.h"
+#include "one-msg-sdk/model/SetWhatsappBusinessEncryption_request.h"
 
 namespace onemsg {
 namespace chat {

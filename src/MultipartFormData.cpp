@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-#include "one-msg-chat-api/MultipartFormData.h"
-#include "one-msg-chat-api/ModelBase.h"
+#include "one-msg-sdk/MultipartFormData.h"
+#include "one-msg-sdk/ModelBase.h"
 
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>

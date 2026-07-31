@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-#include "one-msg-chat-api/HttpContent.h"
+#include "one-msg-sdk/HttpContent.h"
 
 namespace onemsg {
 namespace chat {

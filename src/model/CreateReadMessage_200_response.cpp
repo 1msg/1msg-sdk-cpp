@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/CreateReadMessage_200_response.h"
+#include "one-msg-sdk/model/CreateReadMessage_200_response.h"
 
 namespace onemsg {
 namespace chat {

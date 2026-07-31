@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/AddTemplate_request.h"
+#include "one-msg-sdk/model/AddTemplate_request.h"
 
 namespace onemsg {
 namespace chat {

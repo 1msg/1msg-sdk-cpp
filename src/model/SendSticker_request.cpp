@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/SendSticker_request.h"
+#include "one-msg-sdk/model/SendSticker_request.h"
 
 namespace onemsg {
 namespace chat {

@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/SendPaymentRequest_request.h"
+#include "one-msg-sdk/model/SendPaymentRequest_request.h"
 
 namespace onemsg {
 namespace chat {

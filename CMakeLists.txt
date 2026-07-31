@@ -10,7 +10,7 @@
 
 cmake_minimum_required (VERSION 3.10)
 
-project(one-msg-chat-api CXX)
+project(one-msg-sdk CXX)
 
 # Force -fPIC even if the project is configured for building a static library.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)

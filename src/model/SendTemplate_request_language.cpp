@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/SendTemplate_request_language.h"
+#include "one-msg-sdk/model/SendTemplate_request_language.h"
 
 namespace onemsg {
 namespace chat {

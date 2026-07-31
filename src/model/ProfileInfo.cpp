@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/ProfileInfo.h"
+#include "one-msg-sdk/model/ProfileInfo.h"
 
 namespace onemsg {
 namespace chat {

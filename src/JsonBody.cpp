@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-#include "one-msg-chat-api/JsonBody.h"
+#include "one-msg-sdk/JsonBody.h"
 
 namespace onemsg {
 namespace chat {

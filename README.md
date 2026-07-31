@@ -7,7 +7,7 @@ auth, quick start, and every public operation available in the client.
 
 | | |
 |---|---|
-| **Git / CMake** | [`one-msg-chat-api`](https://github.com/1msg/1msg-sdk-cpp) |
+| **Git / CMake** | [`one-msg-sdk`](https://github.com/1msg/1msg-sdk-cpp) |
 | **Source** | [github.com/1msg/1msg-sdk-cpp](https://github.com/1msg/1msg-sdk-cpp) |
 | **API docs** | [docs.1msg.io](https://docs.1msg.io/) |
 | **Platform** | [platform.1msg.io](https://platform.1msg.io/) |

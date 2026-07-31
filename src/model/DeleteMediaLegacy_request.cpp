@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/DeleteMediaLegacy_request.h"
+#include "one-msg-sdk/model/DeleteMediaLegacy_request.h"
 
 namespace onemsg {
 namespace chat {

@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/GetCommerce_200_response_inner.h"
+#include "one-msg-sdk/model/GetCommerce_200_response_inner.h"
 
 namespace onemsg {
 namespace chat {

@@ -12,7 +12,7 @@
 
 
 
-#include "one-msg-chat-api/model/SendLocationRequest_request.h"
+#include "one-msg-sdk/model/SendLocationRequest_request.h"
 
 namespace onemsg {
 namespace chat {

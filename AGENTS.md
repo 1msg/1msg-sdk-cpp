@@ -1,4 +1,4 @@
-# AGENTS.md — one-msg-chat-api
+# AGENTS.md — one-msg-sdk
 
 > **Purpose:** exhaustive machine-readable integration guide for AI coding agents.
 > **Human docs:** [README.md](./README.md)
@@ -6,7 +6,7 @@
 ## Identity
 
 ```yaml
-package: "one-msg-chat-api"
+package: "one-msg-sdk"
 registry: https://github.com/1msg/1msg-sdk-cpp
 repository: https://github.com/1msg/1msg-sdk-cpp
 language: C++
@@ -702,6 +702,6 @@ responses: 200, 401, 500
 openapi_title: 1MSG WhatsApp Business API (Public)
 openapi_version: 1.0.0
 operations: 60
-package: one-msg-chat-api
+package: one-msg-sdk
 registry: Git / CMake
 
