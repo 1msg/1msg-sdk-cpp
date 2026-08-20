@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendList_request_sections_inner.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendList_request_sections_inner::SendList_request_sections_inner()

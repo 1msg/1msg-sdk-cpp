@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/GetWhatsappBusinessEncryption_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 GetWhatsappBusinessEncryption_200_response::GetWhatsappBusinessEncryption_200_response()

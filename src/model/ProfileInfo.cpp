@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/ProfileInfo.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 ProfileInfo::ProfileInfo()

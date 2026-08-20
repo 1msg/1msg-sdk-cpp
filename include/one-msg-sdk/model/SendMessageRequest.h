@@ -16,8 +16,8 @@
  * Request body for sending a text message
  */
 
-#ifndef ONEMSG_CHAT_MODEL_SendMessageRequest_H_
-#define ONEMSG_CHAT_MODEL_SendMessageRequest_H_
+#ifndef ONEMSG_SDK_MODEL_SendMessageRequest_H_
+#define ONEMSG_SDK_MODEL_SendMessageRequest_H_
 
 #include <boost/optional.hpp>
 
@@ -26,7 +26,7 @@
 #include <cpprest/details/basic_types.h>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 
@@ -110,4 +110,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_SendMessageRequest_H_ */
+#endif /* ONEMSG_SDK_MODEL_SendMessageRequest_H_ */

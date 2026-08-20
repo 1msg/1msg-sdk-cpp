@@ -13,7 +13,7 @@
 #include "one-msg-sdk/HttpContent.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 HttpContent::HttpContent()

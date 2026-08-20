@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/AddTemplate_request.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 AddTemplate_request::AddTemplate_request()

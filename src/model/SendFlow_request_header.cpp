@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendFlow_request_header.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 void SendFlow_request_header::validate()

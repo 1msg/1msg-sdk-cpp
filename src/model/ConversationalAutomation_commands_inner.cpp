@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/ConversationalAutomation_commands_inner.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 ConversationalAutomation_commands_inner::ConversationalAutomation_commands_inner()

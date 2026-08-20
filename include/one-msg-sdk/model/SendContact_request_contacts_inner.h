@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef ONEMSG_CHAT_MODEL_SendContact_request_contacts_inner_H_
-#define ONEMSG_CHAT_MODEL_SendContact_request_contacts_inner_H_
+#ifndef ONEMSG_SDK_MODEL_SendContact_request_contacts_inner_H_
+#define ONEMSG_SDK_MODEL_SendContact_request_contacts_inner_H_
 
 #include <boost/optional.hpp>
 
@@ -31,7 +31,7 @@
 #include "one-msg-sdk/model/SendContact_request_contacts_inner_phones_inner.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class SendContact_request_contacts_inner_name;
@@ -127,4 +127,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_SendContact_request_contacts_inner_H_ */
+#endif /* ONEMSG_SDK_MODEL_SendContact_request_contacts_inner_H_ */

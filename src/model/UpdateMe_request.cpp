@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/UpdateMe_request.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 UpdateMe_request::UpdateMe_request()

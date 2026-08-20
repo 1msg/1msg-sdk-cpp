@@ -17,7 +17,7 @@
 #include <boost/uuid/uuid_io.hpp>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 MultipartFormData::MultipartFormData()

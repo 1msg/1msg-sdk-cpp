@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/PatchFlowsFlowIdAssets_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 PatchFlowsFlowIdAssets_200_response::PatchFlowsFlowIdAssets_200_response()

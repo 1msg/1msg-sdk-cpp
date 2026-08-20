@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendFlow_request_1.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendFlow_request_1::SendFlow_request_1()

@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendList_request.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendList_request::SendList_request()

@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendOrderDetails_request_language.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendOrderDetails_request_language::SendOrderDetails_request_language()

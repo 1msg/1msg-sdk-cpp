@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/BlockUser_request.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 BlockUser_request::BlockUser_request()

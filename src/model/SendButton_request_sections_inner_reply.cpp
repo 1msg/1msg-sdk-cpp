@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendButton_request_sections_inner_reply.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendButton_request_sections_inner_reply::SendButton_request_sections_inner_reply()

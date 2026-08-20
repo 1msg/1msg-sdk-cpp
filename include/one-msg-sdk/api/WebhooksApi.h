@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef ONEMSG_CHAT_API_WebhooksApi_H_
-#define ONEMSG_CHAT_API_WebhooksApi_H_
+#ifndef ONEMSG_SDK_API_WebhooksApi_H_
+#define ONEMSG_SDK_API_WebhooksApi_H_
 
 
 
@@ -31,10 +31,10 @@
 #include <boost/optional.hpp>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
-using namespace onemsg::chat::model;
+using namespace onemsg::sdk::model;
 
 
 
@@ -60,7 +60,7 @@ public:
     /// Set webhook URL
     /// </summary>
     /// <remarks>
-    /// Configure the client webhook URL for inbound events.
+    /// Configure the client webhook URL for inbound events.  WhatsApp **Calling** events (&#x60;field&#x3D;calls&#x60;) are forwarded as passthrough payloads with &#x60;type: \&quot;calls\&quot;&#x60; and &#x60;instanceId&#x60; (connect / status / terminate). Call permission replies arrive on the normal messages path (&#x60;call_permission_reply&#x60;). Details: **Calling** tag. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
     /// <param name="getWebhook200Response"> (optional)</param>
@@ -77,5 +77,5 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_API_WebhooksApi_H_ */
+#endif /* ONEMSG_SDK_API_WebhooksApi_H_ */
 

@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendSticker_request.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendSticker_request::SendSticker_request()

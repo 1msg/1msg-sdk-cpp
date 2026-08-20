@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SuccessResponse.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SuccessResponse::SuccessResponse()

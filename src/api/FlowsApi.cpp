@@ -21,10 +21,10 @@
 #include <unordered_set>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
-using namespace onemsg::chat::model;
+using namespace onemsg::sdk::model;
 
 FlowsApi::FlowsApi( std::shared_ptr<const ApiClient> apiClient )
     : m_ApiClient(apiClient)

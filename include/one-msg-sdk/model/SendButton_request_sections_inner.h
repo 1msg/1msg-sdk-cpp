@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef ONEMSG_CHAT_MODEL_SendButton_request_sections_inner_H_
-#define ONEMSG_CHAT_MODEL_SendButton_request_sections_inner_H_
+#ifndef ONEMSG_SDK_MODEL_SendButton_request_sections_inner_H_
+#define ONEMSG_SDK_MODEL_SendButton_request_sections_inner_H_
 
 #include <boost/optional.hpp>
 
@@ -27,7 +27,7 @@
 #include <cpprest/details/basic_types.h>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class SendButton_request_sections_inner_reply;
@@ -81,4 +81,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_SendButton_request_sections_inner_H_ */
+#endif /* ONEMSG_SDK_MODEL_SendButton_request_sections_inner_H_ */

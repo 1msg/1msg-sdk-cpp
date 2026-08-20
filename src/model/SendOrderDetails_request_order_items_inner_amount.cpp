@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendOrderDetails_request_order_items_inner_amount.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendOrderDetails_request_order_items_inner_amount::SendOrderDetails_request_order_items_inner_amount()

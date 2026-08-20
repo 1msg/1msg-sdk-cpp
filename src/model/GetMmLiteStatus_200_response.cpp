@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/GetMmLiteStatus_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 GetMmLiteStatus_200_response::GetMmLiteStatus_200_response()

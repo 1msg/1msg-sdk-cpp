@@ -13,7 +13,7 @@
 #include "one-msg-sdk/JsonBody.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 JsonBody::JsonBody( const web::json::value& json)

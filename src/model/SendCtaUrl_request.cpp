@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendCtaUrl_request.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendCtaUrl_request::SendCtaUrl_request()

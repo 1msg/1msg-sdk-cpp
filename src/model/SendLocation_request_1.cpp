@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendLocation_request_1.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendLocation_request_1::SendLocation_request_1()

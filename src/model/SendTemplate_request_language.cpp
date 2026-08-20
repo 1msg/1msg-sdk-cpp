@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendTemplate_request_language.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendTemplate_request_language::SendTemplate_request_language()

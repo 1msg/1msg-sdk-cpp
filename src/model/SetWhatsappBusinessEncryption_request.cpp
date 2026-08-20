@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SetWhatsappBusinessEncryption_request.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SetWhatsappBusinessEncryption_request::SetWhatsappBusinessEncryption_request()

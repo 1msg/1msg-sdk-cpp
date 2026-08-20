@@ -16,8 +16,8 @@
  * Send file by URL/base64 or by mediaId
  */
 
-#ifndef ONEMSG_CHAT_MODEL_SendFileRequest_H_
-#define ONEMSG_CHAT_MODEL_SendFileRequest_H_
+#ifndef ONEMSG_SDK_MODEL_SendFileRequest_H_
+#define ONEMSG_SDK_MODEL_SendFileRequest_H_
 
 #include <stdexcept>
 #include <boost/optional.hpp>
@@ -30,7 +30,7 @@
 #include <cpprest/json.h>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 
@@ -188,4 +188,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_SendFileRequest_H_ */
+#endif /* ONEMSG_SDK_MODEL_SendFileRequest_H_ */

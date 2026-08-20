@@ -13,7 +13,7 @@
 #include "one-msg-sdk/ApiException.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
 ApiException::ApiException( int errorCode

@@ -16,8 +16,8 @@
  * This is an API client responsible for stating the HTTP calls
  */
 
-#ifndef ONEMSG_CHAT_API_ApiClient_H_
-#define ONEMSG_CHAT_API_ApiClient_H_
+#ifndef ONEMSG_SDK_API_ApiClient_H_
+#define ONEMSG_SDK_API_ApiClient_H_
 
 
 #include "one-msg-sdk/ApiConfiguration.h"
@@ -37,10 +37,10 @@
 #include <functional>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
-using namespace onemsg::chat::model;
+using namespace onemsg::sdk::model;
 
 class  ApiClient
 {
@@ -111,4 +111,4 @@ utility::string_t ApiClient::parameterToString(const std::shared_ptr<T>& value)
 }
 }
 
-#endif /* ONEMSG_CHAT_API_ApiClient_H_ */
+#endif /* ONEMSG_SDK_API_ApiClient_H_ */

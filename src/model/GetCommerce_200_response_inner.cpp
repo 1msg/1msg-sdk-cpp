@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/GetCommerce_200_response_inner.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 GetCommerce_200_response_inner::GetCommerce_200_response_inner()

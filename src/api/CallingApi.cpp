@@ -21,10 +21,10 @@
 #include <unordered_set>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
-using namespace onemsg::chat::model;
+using namespace onemsg::sdk::model;
 
 CallingApi::CallingApi( std::shared_ptr<const ApiClient> apiClient )
     : m_ApiClient(apiClient)
@@ -35,7 +35,7 @@ CallingApi::~CallingApi()
 {
 }
 
-pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::getCallingSettings(utility::string_t token) const
+pplx::task<std::shared_ptr<CallingSettings>> CallingApi::getCallingSettings(utility::string_t token) const
 {
 
 
@@ -147,18 +147,13 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::ge
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::map<utility::string_t, std::shared_ptr<AnyType>> localVarResult;
+        std::shared_ptr<CallingSettings> localVarResult(new CallingSettings());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
-            for( auto& localVarItem : localVarJson.as_object() )
-            {
-                std::shared_ptr<AnyType> localVarItemObj;
-                ModelBase::fromJson(localVarItem.second, localVarItemObj);
-                localVarResult[localVarItem.first] = localVarItemObj;
-            }
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -173,8 +168,14 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::ge
         return localVarResult;
     });
 }
-pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::initiateCall(utility::string_t token, boost::optional<std::map<utility::string_t, std::shared_ptr<AnyType>>> requestBody) const
+pplx::task<std::shared_ptr<InitiateCallResponse>> CallingApi::initiateCall(utility::string_t token, std::shared_ptr<InitiateCallRequest> initiateCallRequest) const
 {
+
+    // verify the required parameter 'initiateCallRequest' is set
+    if (initiateCallRequest == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'initiateCallRequest' when calling CallingApi->initiateCall"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -228,8 +229,8 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::in
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
-        if (requestBody)
-            localVarJson = ModelBase::toJson(*requestBody);
+        localVarJson = ModelBase::toJson(initiateCallRequest);
+        
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -239,14 +240,9 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::in
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
+        if(initiateCallRequest.get())
         {
-            std::map<utility::string_t, web::json::value> localVarJsonMap;
-            for( auto& localVarItem : requestBody.get() )
-            {
-                web::json::value jval;
-                localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
-            }
-            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("requestBody"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
+            initiateCallRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("initiateCallRequest"));
         }
         
 
@@ -307,18 +303,13 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::in
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::map<utility::string_t, std::shared_ptr<AnyType>> localVarResult;
+        std::shared_ptr<InitiateCallResponse> localVarResult(new InitiateCallResponse());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
-            for( auto& localVarItem : localVarJson.as_object() )
-            {
-                std::shared_ptr<AnyType> localVarItemObj;
-                ModelBase::fromJson(localVarItem.second, localVarItemObj);
-                localVarResult[localVarItem.first] = localVarItemObj;
-            }
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -333,8 +324,14 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::in
         return localVarResult;
     });
 }
-pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::updateCallingSettings(utility::string_t token, boost::optional<std::map<utility::string_t, std::shared_ptr<AnyType>>> requestBody) const
+pplx::task<std::shared_ptr<UpdateCallingSettings_200_response>> CallingApi::updateCallingSettings(utility::string_t token, std::shared_ptr<CallingSettings> callingSettings) const
 {
+
+    // verify the required parameter 'callingSettings' is set
+    if (callingSettings == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'callingSettings' when calling CallingApi->updateCallingSettings"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -388,8 +385,8 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::up
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
-        if (requestBody)
-            localVarJson = ModelBase::toJson(*requestBody);
+        localVarJson = ModelBase::toJson(callingSettings);
+        
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -399,14 +396,9 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::up
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
+        if(callingSettings.get())
         {
-            std::map<utility::string_t, web::json::value> localVarJsonMap;
-            for( auto& localVarItem : requestBody.get() )
-            {
-                web::json::value jval;
-                localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
-            }
-            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("requestBody"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
+            callingSettings->toMultipart(localVarMultipart, utility::conversions::to_string_t("callingSettings"));
         }
         
 
@@ -467,18 +459,13 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> CallingApi::up
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::map<utility::string_t, std::shared_ptr<AnyType>> localVarResult;
+        std::shared_ptr<UpdateCallingSettings_200_response> localVarResult(new UpdateCallingSettings_200_response());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
-            for( auto& localVarItem : localVarJson.as_object() )
-            {
-                std::shared_ptr<AnyType> localVarItemObj;
-                ModelBase::fromJson(localVarItem.second, localVarItemObj);
-                localVarResult[localVarItem.first] = localVarItemObj;
-            }
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {

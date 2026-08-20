@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendPaymentRequest_request.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendPaymentRequest_request::SendPaymentRequest_request()

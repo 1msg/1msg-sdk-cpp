@@ -16,8 +16,8 @@
  * Flow header (string or text header object)
  */
 
-#ifndef ONEMSG_CHAT_MODEL_SendFlow_request_header_H_
-#define ONEMSG_CHAT_MODEL_SendFlow_request_header_H_
+#ifndef ONEMSG_SDK_MODEL_SendFlow_request_header_H_
+#define ONEMSG_SDK_MODEL_SendFlow_request_header_H_
 
 #include <variant>
 #include <boost/optional.hpp>
@@ -26,7 +26,7 @@
 
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 
@@ -87,4 +87,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_SendFlow_request_header_H_ */
+#endif /* ONEMSG_SDK_MODEL_SendFlow_request_header_H_ */

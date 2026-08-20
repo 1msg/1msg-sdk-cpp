@@ -16,8 +16,8 @@
  * This class represents a single item of a multipart-formdata request.
  */
 
-#ifndef ONEMSG_CHAT_MODEL_HttpContent_H_
-#define ONEMSG_CHAT_MODEL_HttpContent_H_
+#ifndef ONEMSG_SDK_MODEL_HttpContent_H_
+#define ONEMSG_SDK_MODEL_HttpContent_H_
 
 
 
@@ -26,7 +26,7 @@
 #include <memory>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class  HttpContent
@@ -65,4 +65,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_HttpContent_H_ */
+#endif /* ONEMSG_SDK_MODEL_HttpContent_H_ */

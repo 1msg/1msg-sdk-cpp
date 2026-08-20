@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/MessageSentResponse.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 MessageSentResponse::MessageSentResponse()

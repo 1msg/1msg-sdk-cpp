@@ -13,7 +13,7 @@
 #include "one-msg-sdk/ModelBase.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 ModelBase::ModelBase(): m_IsSet(false)

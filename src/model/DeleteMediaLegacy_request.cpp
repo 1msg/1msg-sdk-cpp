@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/DeleteMediaLegacy_request.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 DeleteMediaLegacy_request::DeleteMediaLegacy_request()

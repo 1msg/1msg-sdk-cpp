@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef ONEMSG_CHAT_MODEL_SendOrderDetails_request_order_items_inner_H_
-#define ONEMSG_CHAT_MODEL_SendOrderDetails_request_order_items_inner_H_
+#ifndef ONEMSG_SDK_MODEL_SendOrderDetails_request_order_items_inner_H_
+#define ONEMSG_SDK_MODEL_SendOrderDetails_request_order_items_inner_H_
 
 #include <boost/optional.hpp>
 
@@ -30,7 +30,7 @@
 #include <cpprest/json.h>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 
@@ -116,4 +116,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_SendOrderDetails_request_order_items_inner_H_ */
+#endif /* ONEMSG_SDK_MODEL_SendOrderDetails_request_order_items_inner_H_ */

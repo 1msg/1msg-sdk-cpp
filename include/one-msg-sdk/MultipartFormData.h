@@ -16,8 +16,8 @@
  * This class represents a container for building application/x-multipart-formdata requests.
  */
 
-#ifndef ONEMSG_CHAT_MODEL_MultipartFormData_H_
-#define ONEMSG_CHAT_MODEL_MultipartFormData_H_
+#ifndef ONEMSG_SDK_MODEL_MultipartFormData_H_
+#define ONEMSG_SDK_MODEL_MultipartFormData_H_
 
 
 #include "one-msg-sdk/IHttpBody.h"
@@ -30,7 +30,7 @@
 #include <memory>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class  MultipartFormData
@@ -57,4 +57,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_MultipartFormData_H_ */
+#endif /* ONEMSG_SDK_MODEL_MultipartFormData_H_ */

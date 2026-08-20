@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef ONEMSG_CHAT_MODEL_SendList_request_sections_inner_H_
-#define ONEMSG_CHAT_MODEL_SendList_request_sections_inner_H_
+#ifndef ONEMSG_SDK_MODEL_SendList_request_sections_inner_H_
+#define ONEMSG_SDK_MODEL_SendList_request_sections_inner_H_
 
 #include <boost/optional.hpp>
 
@@ -28,7 +28,7 @@
 #include <vector>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class SendList_request_sections_inner_rows_inner;
@@ -82,4 +82,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_SendList_request_sections_inner_H_ */
+#endif /* ONEMSG_SDK_MODEL_SendList_request_sections_inner_H_ */

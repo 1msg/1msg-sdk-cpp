@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef ONEMSG_CHAT_MODEL_PatchFlowsFlowIdAssets_200_response_H_
-#define ONEMSG_CHAT_MODEL_PatchFlowsFlowIdAssets_200_response_H_
+#ifndef ONEMSG_SDK_MODEL_PatchFlowsFlowIdAssets_200_response_H_
+#define ONEMSG_SDK_MODEL_PatchFlowsFlowIdAssets_200_response_H_
 
 #include <boost/optional.hpp>
 
@@ -29,7 +29,7 @@
 #include <vector>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 
@@ -109,4 +109,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_PatchFlowsFlowIdAssets_200_response_H_ */
+#endif /* ONEMSG_SDK_MODEL_PatchFlowsFlowIdAssets_200_response_H_ */

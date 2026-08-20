@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/GetWebhook_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 GetWebhook_200_response::GetWebhook_200_response()

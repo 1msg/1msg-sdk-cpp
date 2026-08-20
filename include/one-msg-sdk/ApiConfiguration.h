@@ -16,8 +16,8 @@
  * This class represents a single item of a multipart-formdata request.
  */
 
-#ifndef ONEMSG_CHAT_API_ApiConfiguration_H_
-#define ONEMSG_CHAT_API_ApiConfiguration_H_
+#ifndef ONEMSG_SDK_API_ApiConfiguration_H_
+#define ONEMSG_SDK_API_ApiConfiguration_H_
 
 
 
@@ -27,7 +27,7 @@
 #include <map>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
 class  ApiConfiguration
@@ -62,4 +62,4 @@ protected:
 }
 }
 }
-#endif /* ONEMSG_CHAT_API_ApiConfiguration_H_ */
+#endif /* ONEMSG_SDK_API_ApiConfiguration_H_ */

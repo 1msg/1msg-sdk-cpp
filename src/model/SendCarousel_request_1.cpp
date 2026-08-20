@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendCarousel_request_1.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendCarousel_request_1::SendCarousel_request_1()

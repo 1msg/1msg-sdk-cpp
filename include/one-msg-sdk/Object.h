@@ -16,8 +16,8 @@
  * This is the implementation of a JSON object.
  */
 
-#ifndef ONEMSG_CHAT_MODEL_Object_H_
-#define ONEMSG_CHAT_MODEL_Object_H_
+#ifndef ONEMSG_SDK_MODEL_Object_H_
+#define ONEMSG_SDK_MODEL_Object_H_
 
 
 #include "one-msg-sdk/ModelBase.h"
@@ -26,7 +26,7 @@
 #include <cpprest/json.h>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class  Object : public ModelBase
@@ -58,4 +58,4 @@ private:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_Object_H_ */
+#endif /* ONEMSG_SDK_MODEL_Object_H_ */

@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/ListTemplates_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 ListTemplates_200_response::ListTemplates_200_response()

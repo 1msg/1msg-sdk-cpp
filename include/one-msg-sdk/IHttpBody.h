@@ -16,14 +16,14 @@
  * This is the interface for contents that can be sent to a remote HTTP server.
  */
 
-#ifndef ONEMSG_CHAT_MODEL_IHttpBody_H_
-#define ONEMSG_CHAT_MODEL_IHttpBody_H_
+#ifndef ONEMSG_SDK_MODEL_IHttpBody_H_
+#define ONEMSG_SDK_MODEL_IHttpBody_H_
 
 
 #include <iostream>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class  IHttpBody
@@ -38,4 +38,4 @@ public:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_IHttpBody_H_ */
+#endif /* ONEMSG_SDK_MODEL_IHttpBody_H_ */

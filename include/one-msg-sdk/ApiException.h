@@ -16,8 +16,8 @@
  * This is the exception being thrown in case the api call was not successful
  */
 
-#ifndef ONEMSG_CHAT_API_ApiException_H_
-#define ONEMSG_CHAT_API_ApiException_H_
+#ifndef ONEMSG_SDK_API_ApiException_H_
+#define ONEMSG_SDK_API_ApiException_H_
 
 
 
@@ -28,7 +28,7 @@
 #include <map>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
 class  ApiException
@@ -56,4 +56,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_API_ApiBase_H_ */
+#endif /* ONEMSG_SDK_API_ApiBase_H_ */

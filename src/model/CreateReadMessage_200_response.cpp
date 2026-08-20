@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/CreateReadMessage_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 CreateReadMessage_200_response::CreateReadMessage_200_response()

@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendFileRequest.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendFileRequest::SendFileRequest()

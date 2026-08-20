@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/ErrorResponse.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 ErrorResponse::ErrorResponse()

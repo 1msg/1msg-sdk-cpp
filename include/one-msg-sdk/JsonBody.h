@@ -16,8 +16,8 @@
  * This is a JSON http body which can be submitted via http
  */
 
-#ifndef ONEMSG_CHAT_MODEL_JsonBody_H_
-#define ONEMSG_CHAT_MODEL_JsonBody_H_
+#ifndef ONEMSG_SDK_MODEL_JsonBody_H_
+#define ONEMSG_SDK_MODEL_JsonBody_H_
 
 
 #include "one-msg-sdk/IHttpBody.h"
@@ -25,7 +25,7 @@
 #include <cpprest/json.h>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class  JsonBody
@@ -45,4 +45,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_JsonBody_H_ */
+#endif /* ONEMSG_SDK_MODEL_JsonBody_H_ */

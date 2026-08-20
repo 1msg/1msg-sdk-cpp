@@ -16,8 +16,8 @@
  * This is the implementation of an any JSON type.
  */
 
-#ifndef ONEMSG_CHAT_MODEL_AnyType_H_
-#define ONEMSG_CHAT_MODEL_AnyType_H_
+#ifndef ONEMSG_SDK_MODEL_AnyType_H_
+#define ONEMSG_SDK_MODEL_AnyType_H_
 
 
 #include "one-msg-sdk/Object.h"
@@ -26,7 +26,7 @@
 #include <cpprest/json.h>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class  AnyType : public Object {
@@ -54,4 +54,4 @@ private:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_AnyType_H_ */
+#endif /* ONEMSG_SDK_MODEL_AnyType_H_ */

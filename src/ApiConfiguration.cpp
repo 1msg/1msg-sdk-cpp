@@ -13,7 +13,7 @@
 #include "one-msg-sdk/ApiConfiguration.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
 ApiConfiguration::ApiConfiguration()

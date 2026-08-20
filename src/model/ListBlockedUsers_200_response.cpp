@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/ListBlockedUsers_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 ListBlockedUsers_200_response::ListBlockedUsers_200_response()

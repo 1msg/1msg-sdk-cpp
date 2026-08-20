@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/DeleteGroupsGroupId_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 DeleteGroupsGroupId_200_response::DeleteGroupsGroupId_200_response()

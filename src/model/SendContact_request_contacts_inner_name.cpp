@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/SendContact_request_contacts_inner_name.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 SendContact_request_contacts_inner_name::SendContact_request_contacts_inner_name()

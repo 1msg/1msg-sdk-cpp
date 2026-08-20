@@ -16,8 +16,8 @@
  * This is the base class for all model classes
  */
 
-#ifndef ONEMSG_CHAT_MODEL_ModelBase_H_
-#define ONEMSG_CHAT_MODEL_ModelBase_H_
+#ifndef ONEMSG_SDK_MODEL_ModelBase_H_
+#define ONEMSG_SDK_MODEL_ModelBase_H_
 
 
 
@@ -33,7 +33,7 @@
 #include <vector>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 class  ModelBase
@@ -502,4 +502,4 @@ bool ModelBase::fromHttpContent( std::shared_ptr<HttpContent> val, std::map<util
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_ModelBase_H_ */
+#endif /* ONEMSG_SDK_MODEL_ModelBase_H_ */

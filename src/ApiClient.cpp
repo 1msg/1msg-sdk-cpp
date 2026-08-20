@@ -27,10 +27,10 @@ utility::string_t toString(const T value)
 }
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
-using namespace onemsg::chat::model;
+using namespace onemsg::sdk::model;
 
 ApiClient::ApiClient(std::shared_ptr<const ApiConfiguration> configuration )
     : m_Configuration(configuration)

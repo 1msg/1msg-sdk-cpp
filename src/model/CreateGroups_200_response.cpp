@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/CreateGroups_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 CreateGroups_200_response::CreateGroups_200_response()

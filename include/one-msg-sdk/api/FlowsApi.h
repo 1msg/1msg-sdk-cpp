@@ -16,8 +16,8 @@
  * 
  */
 
-#ifndef ONEMSG_CHAT_API_FlowsApi_H_
-#define ONEMSG_CHAT_API_FlowsApi_H_
+#ifndef ONEMSG_SDK_API_FlowsApi_H_
+#define ONEMSG_SDK_API_FlowsApi_H_
 
 
 
@@ -38,10 +38,10 @@
 #include <boost/optional.hpp>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace api {
 
-using namespace onemsg::chat::model;
+using namespace onemsg::sdk::model;
 
 
 
@@ -206,5 +206,5 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_API_FlowsApi_H_ */
+#endif /* ONEMSG_SDK_API_FlowsApi_H_ */
 

@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/RetrieveMedia_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 RetrieveMedia_200_response::RetrieveMedia_200_response()

@@ -15,7 +15,7 @@
 #include "one-msg-sdk/model/ListFlows_200_response.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 ListFlows_200_response::ListFlows_200_response()

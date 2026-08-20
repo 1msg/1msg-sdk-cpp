@@ -13,7 +13,7 @@
 #include "one-msg-sdk/AnyType.h"
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 AnyType::AnyType() { m_value = web::json::value::null(); }

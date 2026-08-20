@@ -16,8 +16,8 @@
  * WhatsApp Business profile information
  */
 
-#ifndef ONEMSG_CHAT_MODEL_ProfileInfo_H_
-#define ONEMSG_CHAT_MODEL_ProfileInfo_H_
+#ifndef ONEMSG_SDK_MODEL_ProfileInfo_H_
+#define ONEMSG_SDK_MODEL_ProfileInfo_H_
 
 #include <stdexcept>
 #include <boost/optional.hpp>
@@ -31,7 +31,7 @@
 #include <vector>
 
 namespace onemsg {
-namespace chat {
+namespace sdk {
 namespace model {
 
 
@@ -200,4 +200,4 @@ protected:
 }
 }
 
-#endif /* ONEMSG_CHAT_MODEL_ProfileInfo_H_ */
+#endif /* ONEMSG_SDK_MODEL_ProfileInfo_H_ */
