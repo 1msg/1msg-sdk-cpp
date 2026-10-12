@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -35,8 +35,14 @@ GroupsApi::~GroupsApi()
 {
 }
 
-pplx::task<std::shared_ptr<CreateGroups_200_response>> GroupsApi::createGroups(utility::string_t token) const
+pplx::task<std::shared_ptr<CreateGroups_200_response>> GroupsApi::createGroups(utility::string_t token, std::shared_ptr<CreateGroups_request> createGroupsRequest) const
 {
+
+    // verify the required parameter 'createGroupsRequest' is set
+    if (createGroupsRequest == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createGroupsRequest' when calling GroupsApi->createGroups"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -75,6 +81,7 @@ pplx::task<std::shared_ptr<CreateGroups_200_response>> GroupsApi::createGroups(u
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
+    localVarConsumeHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
@@ -87,11 +94,27 @@ pplx::task<std::shared_ptr<CreateGroups_200_response>> GroupsApi::createGroups(u
     if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
+        web::json::value localVarJson;
+
+        localVarJson = ModelBase::toJson(createGroupsRequest);
+        
+
+        localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+        std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
+
+        if(createGroupsRequest.get())
+        {
+            createGroupsRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("createGroupsRequest"));
+        }
+        
+
+        localVarHttpBody = localVarMultipart;
+        localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
     else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
     {
@@ -168,8 +191,14 @@ pplx::task<std::shared_ptr<CreateGroups_200_response>> GroupsApi::createGroups(u
         return localVarResult;
     });
 }
-pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::createGroupsGroupId(utility::string_t groupId, utility::string_t token) const
+pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::createGroupsGroupId(utility::string_t groupId, utility::string_t token, std::shared_ptr<CreateGroupsGroupId_request> createGroupsGroupIdRequest) const
 {
+
+    // verify the required parameter 'createGroupsGroupIdRequest' is set
+    if (createGroupsGroupIdRequest == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createGroupsGroupIdRequest' when calling GroupsApi->createGroupsGroupId"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -209,6 +238,7 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::cre
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
+    localVarConsumeHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
@@ -221,11 +251,27 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::cre
     if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
+        web::json::value localVarJson;
+
+        localVarJson = ModelBase::toJson(createGroupsGroupIdRequest);
+        
+
+        localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+        std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
+
+        if(createGroupsGroupIdRequest.get())
+        {
+            createGroupsGroupIdRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("createGroupsGroupIdRequest"));
+        }
+        
+
+        localVarHttpBody = localVarMultipart;
+        localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
     else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
     {
@@ -580,7 +626,7 @@ pplx::task<std::shared_ptr<DeleteGroupsGroupId_200_response>> GroupsApi::deleteG
         return localVarResult;
     });
 }
-pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::getGroupsGroupId(utility::string_t groupId, utility::string_t token) const
+pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::getGroupsGroupId(utility::string_t groupId, utility::string_t token, boost::optional<utility::string_t> fields) const
 {
 
 
@@ -624,6 +670,10 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::get
 
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
+    }
+    if (fields)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("fields")] = ApiClient::parameterToString(*fields);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -858,7 +908,7 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::get
         return localVarResult;
     });
 }
-pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::listGroups(utility::string_t token) const
+pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::listGroups(utility::string_t token, boost::optional<int32_t> limit, boost::optional<utility::string_t> before, boost::optional<utility::string_t> after) const
 {
 
 
@@ -901,6 +951,18 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> GroupsApi::lis
 
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
+    }
+    if (limit)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+    }
+    if (before)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("before")] = ApiClient::parameterToString(*before);
+    }
+    if (after)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("after")] = ApiClient::parameterToString(*after);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;

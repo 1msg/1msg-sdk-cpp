@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -59,13 +59,16 @@ public:
 
 
     /// <summary>
-    /// Profile About section
+    /// Profile About section (WhatsApp status text)
     /// </summary>
     utility::string_t getAbout() const;
     bool aboutIsSet() const;
     void unsetAbout();
     void setAbout(const utility::string_t& value);
 
+    /// <summary>
+    /// Business address shown on the profile
+    /// </summary>
     utility::string_t getAddress() const;
     bool addressIsSet() const;
     void unsetAddress();
@@ -79,6 +82,9 @@ public:
     void unsetDescription();
     void setDescription(const utility::string_t& value);
 
+    /// <summary>
+    /// Business email shown on the profile
+    /// </summary>
     utility::string_t getEmail() const;
     bool emailIsSet() const;
     void unsetEmail();
@@ -100,6 +106,9 @@ public:
     void unsetPhoto();
     void setPhoto(const utility::string_t& value);
 
+    /// <summary>
+    /// Business website URLs
+    /// </summary>
     std::vector<utility::string_t> getWebsites() const;
     bool websitesIsSet() const;
     void unsetWebsites();

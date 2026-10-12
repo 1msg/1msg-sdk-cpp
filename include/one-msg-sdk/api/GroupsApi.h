@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -24,7 +24,9 @@
 #include "one-msg-sdk/ApiClient.h"
 
 #include "one-msg-sdk/AnyType.h"
+#include "one-msg-sdk/model/CreateGroupsGroupId_request.h"
 #include "one-msg-sdk/model/CreateGroups_200_response.h"
+#include "one-msg-sdk/model/CreateGroups_request.h"
 #include "one-msg-sdk/model/DeleteGroupsGroupId_200_response.h"
 #include <map>
 #include <cpprest/details/basic_types.h>
@@ -53,20 +55,24 @@ public:
     /// 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="createGroupsRequest"></param>
     pplx::task<std::shared_ptr<CreateGroups_200_response>> createGroups(
-        utility::string_t token
+        utility::string_t token,
+        std::shared_ptr<CreateGroups_request> createGroupsRequest
     ) const;
     /// <summary>
     /// Update Group Info
     /// </summary>
     /// <remarks>
-    /// 
+    /// Update group subject, description, and/or profile picture. Path &#x60;groupId&#x60; is the WABA group id (without &#x60;@g.us&#x60;). 
     /// </remarks>
     /// <param name="groupId"></param>
     /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="createGroupsGroupIdRequest"></param>
     pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> createGroupsGroupId(
         utility::string_t groupId,
-        utility::string_t token
+        utility::string_t token,
+        std::shared_ptr<CreateGroupsGroupId_request> createGroupsGroupIdRequest
     ) const;
     /// <summary>
     /// Reset Invite Link
@@ -100,9 +106,11 @@ public:
     /// </remarks>
     /// <param name="groupId"></param>
     /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="fields">Comma-separated group fields to return (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> getGroupsGroupId(
         utility::string_t groupId,
-        utility::string_t token
+        utility::string_t token,
+        boost::optional<utility::string_t> fields
     ) const;
     /// <summary>
     /// Get Invite Link
@@ -120,11 +128,17 @@ public:
     /// Get Groups List
     /// </summary>
     /// <remarks>
-    /// 
+    /// List WhatsApp groups for this channel. Paginate with &#x60;limit&#x60;, &#x60;before&#x60;, and &#x60;after&#x60;.
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="limit">Max groups to return (optional, default to 0)</param>
+    /// <param name="before">Cursor for the previous page (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="after">Cursor for the next page (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> listGroups(
-        utility::string_t token
+        utility::string_t token,
+        boost::optional<int32_t> limit,
+        boost::optional<utility::string_t> before,
+        boost::optional<utility::string_t> after
     ) const;
 
 protected:

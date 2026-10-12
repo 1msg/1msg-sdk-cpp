@@ -1,0 +1,12 @@
+{
+  "entry": [
+    "quality/generator/generate.mjs!",
+    "quality/generator/verify-negative.mjs!",
+    "quality/postprocess.mjs!",
+    "eslint.config.mjs",
+    "quality.config.mjs"
+  ],
+  "project": ["quality/**/*.mjs!", "*.mjs"],
+  "ignoreBinaries": ["java"],
+  "ignore": ["tools/quality/**"]
+}

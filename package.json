@@ -1,0 +1,25 @@
+{
+  "name": "1msg-sdk-cpp-quality",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "packageManager": "npm@11.17.0",
+  "scripts": {
+    "format:check": "node tools/quality/node_modules/prettier/bin/prettier.cjs --check \"quality/**/*.mjs\" \"*.mjs\" package.json knip.json .github/workflows/quality.yml AGENTS.md",
+    "format": "node tools/quality/node_modules/prettier/bin/prettier.cjs --write \"quality/**/*.mjs\" \"*.mjs\" package.json knip.json .github/workflows/quality.yml AGENTS.md",
+    "lint:static": "node tools/quality/node_modules/eslint/bin/eslint.js . --max-warnings=0",
+    "quality:guards": "node tools/quality/run.mjs guards",
+    "lint:unused:production": "node tools/quality/run.mjs unused-production",
+    "lint:unused:full": "node tools/quality/run.mjs unused-full",
+    "lint:duplicates": "node tools/quality/run.mjs duplicates",
+    "lint:duplicates:full": "node tools/quality/run.mjs duplicates-full",
+    "test:quality": "node --test tools/quality/test/*.test.mjs",
+    "hooks:install": "node tools/quality/node_modules/husky/bin.js"
+  },
+  "lint-staged": {
+    "*.{mjs,json,md,yml}": "node tools/quality/node_modules/prettier/bin/prettier.cjs --write"
+  }
+}

@@ -1,6 +1,6 @@
 #
 # 1MSG WhatsApp Business API (Public)
-# Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+# Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
 #
 # The version of the OpenAPI document: 1.0.0
 #
@@ -38,6 +38,7 @@ endif()
 find_package(cpprestsdk REQUIRED)
 target_compile_definitions(cpprestsdk::cpprest INTERFACE _TURN_OFF_PLATFORM_STRING)
 find_package(Boost REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -59,7 +60,7 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest)
+target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest OpenSSL::SSL OpenSSL::Crypto)
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"

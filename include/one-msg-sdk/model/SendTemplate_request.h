@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -26,6 +26,7 @@
 #include "one-msg-sdk/AnyType.h"
 #include <cpprest/details/basic_types.h>
 #include "one-msg-sdk/model/SendTemplate_request_language.h"
+#include <map>
 #include <vector>
 
 namespace onemsg {
@@ -58,6 +59,9 @@ public:
     /// SendTemplate_request members
 
 
+    /// <summary>
+    /// Approved template name (template &#x60;name&#x60;, not the old HSM &#x60;element_name&#x60;)
+    /// </summary>
     utility::string_t getRTemplate() const;
     bool rTemplateIsSet() const;
     void unsetr_template();
@@ -68,20 +72,45 @@ public:
     void unsetLanguage();
     void setLanguage(const std::shared_ptr<SendTemplate_request_language>& value);
 
+    /// <summary>
+    /// Template namespace from &#x60;list_templates&#x60;
+    /// </summary>
     utility::string_t getRNamespace() const;
     bool rNamespaceIsSet() const;
     void unsetr_namespace();
     void setRNamespace(const utility::string_t& value);
 
-    std::vector<std::shared_ptr<AnyType>> getParams() const;
+    /// <summary>
+    /// Template components in WhatsApp Cloud API format. Each item is an object with &#x60;type&#x60; (&#x60;body&#x60;, &#x60;header&#x60;, &#x60;button&#x60;) and &#x60;parameters&#x60; (objects with &#x60;type&#x60; + &#x60;text&#x60; / media / action). Never a list of strings. Never HSM &#x60;localizable_params&#x60;. 
+    /// </summary>
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> getParams() const;
     bool paramsIsSet() const;
     void unsetParams();
-    void setParams(const std::vector<std::shared_ptr<AnyType>>& value);
+    void setParams(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value);
 
+    /// <summary>
+    /// Recipient phone with country code (use phone or chatId)
+    /// </summary>
     utility::string_t getPhone() const;
     bool phoneIsSet() const;
     void unsetPhone();
     void setPhone(const utility::string_t& value);
+
+    /// <summary>
+    /// Recipient chat ID (&#x60;phone@c.us&#x60;, group &#x60;@g.us&#x60;, or BSUID &#x60;@lid&#x60;). Use phone or chatId.
+    /// </summary>
+    utility::string_t getChatId() const;
+    bool chatIdIsSet() const;
+    void unsetChatId();
+    void setChatId(const utility::string_t& value);
+
+    /// <summary>
+    /// Optional Cloud API wamid to quote
+    /// </summary>
+    utility::string_t getQuotedMsgId() const;
+    bool quotedMsgIdIsSet() const;
+    void unsetQuotedMsgId();
+    void setQuotedMsgId(const utility::string_t& value);
 
     /// <summary>
     /// Force Marketing Messages API (POST marketing_messages). If omitted: auto for MARKETING category when channel has mm_lite_enabled and mm_lite_available service settings. 
@@ -118,11 +147,17 @@ protected:
     utility::string_t m_r_namespace;
     bool m_r_namespaceIsSet;
 
-    std::vector<std::shared_ptr<AnyType>> m_Params;
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> m_Params;
     bool m_ParamsIsSet;
 
     utility::string_t m_Phone;
     bool m_PhoneIsSet;
+
+    utility::string_t m_ChatId;
+    bool m_ChatIdIsSet;
+
+    utility::string_t m_QuotedMsgId;
+    bool m_QuotedMsgIdIsSet;
 
     bool m_UseMMlite;
     bool m_UseMMliteIsSet;

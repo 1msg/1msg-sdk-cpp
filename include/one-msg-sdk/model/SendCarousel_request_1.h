@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -24,7 +24,9 @@
 #include "one-msg-sdk/ModelBase.h"
 
 #include "one-msg-sdk/Object.h"
+#include "one-msg-sdk/AnyType.h"
 #include <cpprest/details/basic_types.h>
+#include <map>
 #include <vector>
 
 namespace onemsg {
@@ -56,11 +58,25 @@ public:
     /// SendCarousel_request_1 members
 
 
+    /// <summary>
+    /// Text shown above the carousel
+    /// </summary>
     utility::string_t getBody() const;
     bool bodyIsSet() const;
     void unsetBody();
     void setBody(const utility::string_t& value);
 
+    /// <summary>
+    /// Preferred. 2–10 carousel cards.
+    /// </summary>
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> getCards() const;
+    bool cardsIsSet() const;
+    void unsetCards();
+    void setCards(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value);
+
+    /// <summary>
+    /// Template-like alternative — include a CAROUSEL component with cards
+    /// </summary>
     std::vector<std::shared_ptr<Object>> getParams() const;
     bool paramsIsSet() const;
     void unsetParams();
@@ -85,6 +101,9 @@ public:
 protected:
     utility::string_t m_Body;
     bool m_BodyIsSet;
+
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> m_Cards;
+    bool m_CardsIsSet;
 
     std::vector<std::shared_ptr<Object>> m_Params;
     bool m_ParamsIsSet;

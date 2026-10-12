@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -23,11 +23,10 @@
 
 #include "one-msg-sdk/ApiClient.h"
 
-#include "one-msg-sdk/AnyType.h"
 #include "one-msg-sdk/model/ErrorResponse.h"
 #include "one-msg-sdk/model/ProfileInfo.h"
+#include "one-msg-sdk/model/UpdateMe_200_response.h"
 #include "one-msg-sdk/model/UpdateMe_request.h"
-#include <map>
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
 
@@ -51,7 +50,7 @@ public:
     /// Get Profile Info
     /// </summary>
     /// <remarks>
-    /// Get WhatsApp Business Account profile information
+    /// Return the WhatsApp Business profile for this channel: About, address, description, email, phone, websites, industry (&#x60;vertical&#x60;), and profile photo URL. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
     pplx::task<std::shared_ptr<ProfileInfo>> getMe(
@@ -64,10 +63,10 @@ public:
     /// Update WhatsApp Business Account profile fields. At least one of about, description, email, photo, address, vertical, websites is required. Blocked when the channel subscription limit is exceeded. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
-    /// <param name="updateMeRequest"> (optional)</param>
-    pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> updateMe(
+    /// <param name="updateMeRequest"></param>
+    pplx::task<std::shared_ptr<UpdateMe_200_response>> updateMe(
         utility::string_t token,
-        boost::optional<std::shared_ptr<UpdateMe_request>> updateMeRequest
+        std::shared_ptr<UpdateMe_request> updateMeRequest
     ) const;
 
 protected:
