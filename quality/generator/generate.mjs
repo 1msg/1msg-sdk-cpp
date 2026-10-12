@@ -128,14 +128,18 @@ try {
     }
     await writeFile(inventoryPath, JSON.stringify(expected, null, 2) + "\n");
   } else {
-    for (const actual of [
-      await inventory(root),
-      JSON.parse(await readFile(inventoryPath, "utf8")),
-    ])
+    // Synchronization may advance only the manifest after independently verifying
+    // the incoming producer output; it must never overwrite differing bytes.
+    const candidates = [await inventory(root)];
+    if (!process.argv.includes("--adopt"))
+      candidates.push(JSON.parse(await readFile(inventoryPath, "utf8")));
+    for (const actual of candidates)
       if (JSON.stringify(actual) !== JSON.stringify(expected))
         throw new Error(
           "Generated drift: review producer then run node quality/generator/generate.mjs --write",
         );
+    if (process.argv.includes("--adopt"))
+      await writeFile(inventoryPath, JSON.stringify(expected, null, 2) + "\n");
   }
   console.log(
     `Verified ${Object.keys(expected).length} generated ${config.language} code paths`,

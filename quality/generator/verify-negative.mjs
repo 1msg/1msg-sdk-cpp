@@ -19,17 +19,19 @@ const ignorePath = join(root, ".gitignore");
 const originalIgnore = readFileSync(ignorePath);
 /** Require the real generation replay to fail specifically on output drift, not a missing tool or configuration. */
 function rejectDrift() {
-  const result = spawnSync(
-    process.execPath,
-    ["quality/generator/generate.mjs"],
-    { cwd: root, encoding: "utf8", timeout: 120000 },
-  );
-  assert.notEqual(result.status, 0, "generation accepted modified output");
-  assert.match(
-    result.stderr + result.stdout,
-    /Generated drift/,
-    "fixture failed for an unrelated reason",
-  );
+  for (const flags of [[], ["--adopt"]]) {
+    const result = spawnSync(
+      process.execPath,
+      ["quality/generator/generate.mjs", ...flags],
+      { cwd: root, encoding: "utf8", timeout: 120000 },
+    );
+    assert.notEqual(result.status, 0, "generation accepted modified output");
+    assert.match(
+      result.stderr + result.stdout,
+      /Generated drift/,
+      "fixture failed for an unrelated reason",
+    );
+  }
 }
 try {
   writeFileSync(
