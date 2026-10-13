@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -25,7 +25,10 @@
 
 #include "one-msg-sdk/AnyType.h"
 #include "one-msg-sdk/model/ConversationalAutomation.h"
+#include "one-msg-sdk/model/CreateSettings_request.h"
 #include "one-msg-sdk/model/ErrorResponse.h"
+#include "one-msg-sdk/model/GetStatus_200_response.h"
+#include "one-msg-sdk/model/ListSettings_200_response.h"
 #include <map>
 #include <cpprest/details/basic_types.h>
 #include <boost/optional.hpp>
@@ -47,6 +50,18 @@ public:
     virtual ~ChannelApi();
 
     /// <summary>
+    /// Update channel settings
+    /// </summary>
+    /// <remarks>
+    /// Update channel settings. Only send fields you want to change.  &#x60;webhookUrl&#x60; **replaces** the stored list (one URL string, or up to 5 URLs as an array). Passing an empty value clears webhooks. Repeating the same URL(s) also clears a sticky auto-disable. With several URLs, send the complete array to re-enable one of them — omitting a URL removes it from the channel. 
+    /// </remarks>
+    /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="createSettingsRequest"></param>
+    pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> createSettings(
+        utility::string_t token,
+        std::shared_ptr<CreateSettings_request> createSettingsRequest
+    ) const;
+    /// <summary>
     /// Get conversational automation settings
     /// </summary>
     /// <remarks>
@@ -60,10 +75,20 @@ public:
     /// Get channel status
     /// </summary>
     /// <remarks>
-    /// Returns WhatsApp Business API client connection status.
+    /// Return WhatsApp Cloud API connection status for this channel (&#x60;connected&#x60; when the number can send). May include &#x60;accountStatus&#x60;, messaging limit, and MM Lite availability.  Optional &#x60;health_status_warning&#x60; appears only when Meta Graph health could not be loaded and a soft &#x60;connected&#x60; response is returned. Omitted on the normal path and when health details are not applicable for the channel — never an internal provider/transport name. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
-    pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> getStatus(
+    pplx::task<std::shared_ptr<GetStatus_200_response>> getStatus(
+        utility::string_t token
+    ) const;
+    /// <summary>
+    /// Get channel settings
+    /// </summary>
+    /// <remarks>
+    /// Return channel settings: webhook URL(s), delivery flags, and analytics toggles.  Auto-disable / circuit state matches &#x60;GET /webhook&#x60;. **Prefer &#x60;webhookStatuses&#x60;** (one row per configured URL). The breaker is per URL, not per channel.  Channel-level &#x60;haveDisabledWebhooks&#x60; is &#x60;true&#x60; when **at least one** URL in &#x60;webhookUrl&#x60; is sticky auto-disabled — not \&quot;the channel is dead\&quot;. Live URLs still receive events. Top-level &#x60;circuitState&#x60; / &#x60;reason&#x60; / &#x60;fails&#x60; / &#x60;trips&#x60; are a compatibility summary of one URL (first sticky-disabled, else first configured).  This is the same &#x60;GET /settings&#x60; endpoint as the REST API (previously missing from MCP). 
+    /// </remarks>
+    /// <param name="token">JWT token or API key for authorization</param>
+    pplx::task<std::shared_ptr<ListSettings_200_response>> listSettings(
         utility::string_t token
     ) const;
     /// <summary>

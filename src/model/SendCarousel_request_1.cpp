@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -22,6 +22,7 @@ SendCarousel_request_1::SendCarousel_request_1()
 {
     m_Body = utility::conversions::to_string_t("");
     m_BodyIsSet = false;
+    m_CardsIsSet = false;
     m_ParamsIsSet = false;
     m_QuotedMsgId = utility::conversions::to_string_t("");
     m_QuotedMsgIdIsSet = false;
@@ -47,6 +48,11 @@ web::json::value SendCarousel_request_1::toJson() const
     {
         
         val[utility::conversions::to_string_t(_XPLATSTR("body"))] = ModelBase::toJson(m_Body);
+    }
+    if(m_CardsIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("cards"))] = ModelBase::toJson(m_Cards);
     }
     if(m_ParamsIsSet)
     {
@@ -83,6 +89,17 @@ bool SendCarousel_request_1::fromJson(const web::json::value& val)
             utility::string_t refVal_setBody;
             ok &= ModelBase::fromJson(fieldValue, refVal_setBody);
             setBody(refVal_setBody);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("cards"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("cards")));
+        if(!fieldValue.is_null())
+        {
+            std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setCards;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setCards);
+            setCards(refVal_setCards);
             
         }
     }
@@ -144,6 +161,10 @@ void SendCarousel_request_1::toMultipart(std::shared_ptr<MultipartFormData> mult
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("body")), m_Body));
     }
+    if(m_CardsIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("cards")), m_Cards));
+    }
     if(m_ParamsIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("params")), m_Params));
@@ -176,6 +197,12 @@ bool SendCarousel_request_1::fromMultiPart(std::shared_ptr<MultipartFormData> mu
         utility::string_t refVal_setBody;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("body"))), refVal_setBody );
         setBody(refVal_setBody);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("cards"))))
+    {
+        std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setCards;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("cards"))), refVal_setCards );
+        setCards(refVal_setCards);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("params"))))
     {
@@ -225,6 +252,27 @@ bool SendCarousel_request_1::bodyIsSet() const
 void SendCarousel_request_1::unsetBody()
 {
     m_BodyIsSet = false;
+}
+std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> SendCarousel_request_1::getCards() const
+{
+    return m_Cards;
+}
+
+
+void SendCarousel_request_1::setCards(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value)
+{
+    m_Cards = value;
+    m_CardsIsSet = true;
+}
+
+bool SendCarousel_request_1::cardsIsSet() const
+{
+    return m_CardsIsSet;
+}
+
+void SendCarousel_request_1::unsetCards()
+{
+    m_CardsIsSet = false;
 }
 std::vector<std::shared_ptr<Object>> SendCarousel_request_1::getParams() const
 {

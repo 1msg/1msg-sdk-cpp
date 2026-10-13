@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -20,8 +20,25 @@ namespace model {
 
 GetWebhook_200_response::GetWebhook_200_response()
 {
-    m_WebhookUrl = utility::conversions::to_string_t("");
-    m_WebhookUrlIsSet = false;
+    m_HaveDisabledWebhooks = false;
+    m_HaveDisabledWebhooksIsSet = false;
+    m_CircuitStateIsSet = false;
+    m_Reason = utility::conversions::to_string_t("");
+    m_ReasonIsSet = false;
+    m_Fails = 0;
+    m_FailsIsSet = false;
+    m_Trips = 0;
+    m_TripsIsSet = false;
+    m_DisabledAt = 0;
+    m_DisabledAtIsSet = false;
+    m_FirstFailAt = 0;
+    m_FirstFailAtIsSet = false;
+    m_LastStatus = 0;
+    m_LastStatusIsSet = false;
+    m_NextProbeAt = 0;
+    m_NextProbeAtIsSet = false;
+    m_DisabledWebhooksIsSet = false;
+    m_WebhookStatusesIsSet = false;
     m_AdditionalPropertiesIsSet = false;
 }
 
@@ -37,10 +54,67 @@ void GetWebhook_200_response::validate()
 web::json::value GetWebhook_200_response::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_WebhookUrlIsSet)
+    if(m_WebhookUrl.has_value())
     {
         
-        val[utility::conversions::to_string_t(_XPLATSTR("webhookUrl"))] = ModelBase::toJson(m_WebhookUrl);
+        val[utility::conversions::to_string_t(_XPLATSTR("webhookUrl"))] = ModelBase::toJson(m_WebhookUrl.get());
+    }
+    if(m_HaveDisabledWebhooksIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("haveDisabledWebhooks"))] = ModelBase::toJson(m_HaveDisabledWebhooks);
+    }
+    if(m_CircuitStateIsSet)
+    {
+        
+        utility::string_t refVal = fromCircuitStateEnum(m_CircuitState);
+        val[utility::conversions::to_string_t(_XPLATSTR("circuitState"))] = ModelBase::toJson(refVal);
+        
+    }
+    if(m_ReasonIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("reason"))] = ModelBase::toJson(m_Reason);
+    }
+    if(m_FailsIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("fails"))] = ModelBase::toJson(m_Fails);
+    }
+    if(m_TripsIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("trips"))] = ModelBase::toJson(m_Trips);
+    }
+    if(m_DisabledAtIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("disabledAt"))] = ModelBase::toJson(m_DisabledAt);
+    }
+    if(m_FirstFailAtIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("firstFailAt"))] = ModelBase::toJson(m_FirstFailAt);
+    }
+    if(m_LastStatusIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("lastStatus"))] = ModelBase::toJson(m_LastStatus);
+    }
+    if(m_NextProbeAtIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("nextProbeAt"))] = ModelBase::toJson(m_NextProbeAt);
+    }
+    if(m_DisabledWebhooksIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("disabledWebhooks"))] = ModelBase::toJson(m_DisabledWebhooks);
+    }
+    if(m_WebhookStatusesIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("webhookStatuses"))] = ModelBase::toJson(m_WebhookStatuses);
     }
     // Serialize additional properties
     if(m_AdditionalPropertiesIsSet)
@@ -62,9 +136,131 @@ bool GetWebhook_200_response::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("webhookUrl")));
         if(!fieldValue.is_null())
         {
-            utility::string_t refVal_setWebhookUrl;
+            std::shared_ptr<GetWebhook_200_response_webhookUrl> refVal_setWebhookUrl;
             ok &= ModelBase::fromJson(fieldValue, refVal_setWebhookUrl);
             setWebhookUrl(refVal_setWebhookUrl);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("haveDisabledWebhooks"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("haveDisabledWebhooks")));
+        if(!fieldValue.is_null())
+        {
+            bool refVal_setHaveDisabledWebhooks;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setHaveDisabledWebhooks);
+            setHaveDisabledWebhooks(refVal_setHaveDisabledWebhooks);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("circuitState"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("circuitState")));
+        if(!fieldValue.is_null())
+        {
+            utility::string_t refVal_setCircuitState;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setCircuitState);
+            
+            setCircuitState(toCircuitStateEnum(refVal_setCircuitState));
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("reason"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("reason")));
+        if(!fieldValue.is_null())
+        {
+            utility::string_t refVal_setReason;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setReason);
+            setReason(refVal_setReason);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("fails"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("fails")));
+        if(!fieldValue.is_null())
+        {
+            int32_t refVal_setFails;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setFails);
+            setFails(refVal_setFails);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("trips"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("trips")));
+        if(!fieldValue.is_null())
+        {
+            int32_t refVal_setTrips;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setTrips);
+            setTrips(refVal_setTrips);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("disabledAt"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("disabledAt")));
+        if(!fieldValue.is_null())
+        {
+            int32_t refVal_setDisabledAt;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setDisabledAt);
+            setDisabledAt(refVal_setDisabledAt);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("firstFailAt"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("firstFailAt")));
+        if(!fieldValue.is_null())
+        {
+            int32_t refVal_setFirstFailAt;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setFirstFailAt);
+            setFirstFailAt(refVal_setFirstFailAt);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("lastStatus"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("lastStatus")));
+        if(!fieldValue.is_null())
+        {
+            int32_t refVal_setLastStatus;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setLastStatus);
+            setLastStatus(refVal_setLastStatus);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("nextProbeAt"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("nextProbeAt")));
+        if(!fieldValue.is_null())
+        {
+            int32_t refVal_setNextProbeAt;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setNextProbeAt);
+            setNextProbeAt(refVal_setNextProbeAt);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("disabledWebhooks"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("disabledWebhooks")));
+        if(!fieldValue.is_null())
+        {
+            std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setDisabledWebhooks;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setDisabledWebhooks);
+            setDisabledWebhooks(refVal_setDisabledWebhooks);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("webhookStatuses"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("webhookStatuses")));
+        if(!fieldValue.is_null())
+        {
+            std::vector<std::shared_ptr<WebhookUrlStatus>> refVal_setWebhookStatuses;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setWebhookStatuses);
+            setWebhookStatuses(refVal_setWebhookStatuses);
             
         }
     }
@@ -75,6 +271,17 @@ bool GetWebhook_200_response::fromJson(const web::json::value& val)
         {
             // Skip known properties
             if(item.first == utility::conversions::to_string_t(_XPLATSTR("webhookUrl"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("haveDisabledWebhooks"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("circuitState"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("reason"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("fails"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("trips"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("disabledAt"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("firstFailAt"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("lastStatus"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("nextProbeAt"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("disabledWebhooks"))) continue;
+            if(item.first == utility::conversions::to_string_t(_XPLATSTR("webhookStatuses"))) continue;
             // This is an additional property
             m_AdditionalProperties[item.first] = item.second;
             m_AdditionalPropertiesIsSet = true;
@@ -90,9 +297,53 @@ void GetWebhook_200_response::toMultipart(std::shared_ptr<MultipartFormData> mul
     {
         namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
-    if(m_WebhookUrlIsSet)
+    if(m_WebhookUrl.has_value())
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("webhookUrl")), m_WebhookUrl));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("webhookUrl")), m_WebhookUrl.get()));
+    }
+    if(m_HaveDisabledWebhooksIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("haveDisabledWebhooks")), m_HaveDisabledWebhooks));
+    }
+    if(m_CircuitStateIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("circuitState")), fromCircuitStateEnum(m_CircuitState)));
+    }
+    if(m_ReasonIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("reason")), m_Reason));
+    }
+    if(m_FailsIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("fails")), m_Fails));
+    }
+    if(m_TripsIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("trips")), m_Trips));
+    }
+    if(m_DisabledAtIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("disabledAt")), m_DisabledAt));
+    }
+    if(m_FirstFailAtIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("firstFailAt")), m_FirstFailAt));
+    }
+    if(m_LastStatusIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("lastStatus")), m_LastStatus));
+    }
+    if(m_NextProbeAtIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("nextProbeAt")), m_NextProbeAt));
+    }
+    if(m_DisabledWebhooksIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("disabledWebhooks")), m_DisabledWebhooks));
+    }
+    if(m_WebhookStatusesIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("webhookStatuses")), m_WebhookStatuses));
     }
 }
 
@@ -107,34 +358,368 @@ bool GetWebhook_200_response::fromMultiPart(std::shared_ptr<MultipartFormData> m
 
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("webhookUrl"))))
     {
-        utility::string_t refVal_setWebhookUrl;
+        std::shared_ptr<GetWebhook_200_response_webhookUrl> refVal_setWebhookUrl;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("webhookUrl"))), refVal_setWebhookUrl );
         setWebhookUrl(refVal_setWebhookUrl);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("haveDisabledWebhooks"))))
+    {
+        bool refVal_setHaveDisabledWebhooks;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("haveDisabledWebhooks"))), refVal_setHaveDisabledWebhooks );
+        setHaveDisabledWebhooks(refVal_setHaveDisabledWebhooks);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("circuitState"))))
+    {
+        utility::string_t refVal_setCircuitState;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("circuitState"))), refVal_setCircuitState );
+        setCircuitState(toCircuitStateEnum(refVal_setCircuitState));
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("reason"))))
+    {
+        utility::string_t refVal_setReason;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("reason"))), refVal_setReason );
+        setReason(refVal_setReason);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("fails"))))
+    {
+        int32_t refVal_setFails;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("fails"))), refVal_setFails );
+        setFails(refVal_setFails);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("trips"))))
+    {
+        int32_t refVal_setTrips;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("trips"))), refVal_setTrips );
+        setTrips(refVal_setTrips);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("disabledAt"))))
+    {
+        int32_t refVal_setDisabledAt;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("disabledAt"))), refVal_setDisabledAt );
+        setDisabledAt(refVal_setDisabledAt);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("firstFailAt"))))
+    {
+        int32_t refVal_setFirstFailAt;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("firstFailAt"))), refVal_setFirstFailAt );
+        setFirstFailAt(refVal_setFirstFailAt);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("lastStatus"))))
+    {
+        int32_t refVal_setLastStatus;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("lastStatus"))), refVal_setLastStatus );
+        setLastStatus(refVal_setLastStatus);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("nextProbeAt"))))
+    {
+        int32_t refVal_setNextProbeAt;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("nextProbeAt"))), refVal_setNextProbeAt );
+        setNextProbeAt(refVal_setNextProbeAt);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("disabledWebhooks"))))
+    {
+        std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setDisabledWebhooks;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("disabledWebhooks"))), refVal_setDisabledWebhooks );
+        setDisabledWebhooks(refVal_setDisabledWebhooks);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("webhookStatuses"))))
+    {
+        std::vector<std::shared_ptr<WebhookUrlStatus>> refVal_setWebhookStatuses;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("webhookStatuses"))), refVal_setWebhookStatuses );
+        setWebhookStatuses(refVal_setWebhookStatuses);
     }
     return ok;
 }
 
-
-utility::string_t GetWebhook_200_response::getWebhookUrl() const
+GetWebhook_200_response::CircuitStateEnum GetWebhook_200_response::toCircuitStateEnum(const utility::string_t& value) const
 {
-    return m_WebhookUrl;
+    
+    if (value == utility::conversions::to_string_t("ok")) {
+        return CircuitStateEnum::OK;
+    }
+    
+    if (value == utility::conversions::to_string_t("degraded")) {
+        return CircuitStateEnum::DEGRADED;
+    }
+    
+    if (value == utility::conversions::to_string_t("open")) {
+        return CircuitStateEnum::OPEN;
+    }
+    
+    if (value == utility::conversions::to_string_t("half_open")) {
+        return CircuitStateEnum::HALF_OPEN;
+    }
+    
+    if (value == utility::conversions::to_string_t("disabled")) {
+        return CircuitStateEnum::DISABLED;
+    }
+    
+    throw std::invalid_argument("Invalid value for conversion to CircuitStateEnum");
 }
 
 
-void GetWebhook_200_response::setWebhookUrl(const utility::string_t& value)
+const utility::string_t GetWebhook_200_response::fromCircuitStateEnum(const CircuitStateEnum value) const
+{
+    switch(value)
+    {
+        
+        case CircuitStateEnum::OK: return utility::conversions::to_string_t("ok");
+        
+        case CircuitStateEnum::DEGRADED: return utility::conversions::to_string_t("degraded");
+        
+        case CircuitStateEnum::OPEN: return utility::conversions::to_string_t("open");
+        
+        case CircuitStateEnum::HALF_OPEN: return utility::conversions::to_string_t("half_open");
+        
+        case CircuitStateEnum::DISABLED: return utility::conversions::to_string_t("disabled");
+        
+    }
+}
+
+
+std::shared_ptr<GetWebhook_200_response_webhookUrl> GetWebhook_200_response::getWebhookUrl() const
+{
+    return m_WebhookUrl.get();
+}
+
+
+void GetWebhook_200_response::setWebhookUrl(const std::shared_ptr<GetWebhook_200_response_webhookUrl>& value)
 {
     m_WebhookUrl = value;
-    m_WebhookUrlIsSet = true;
 }
 
 bool GetWebhook_200_response::webhookUrlIsSet() const
 {
-    return m_WebhookUrlIsSet;
+    return m_WebhookUrl.has_value();
 }
 
 void GetWebhook_200_response::unsetWebhookUrl()
 {
-    m_WebhookUrlIsSet = false;
+    m_WebhookUrl.reset();
+}
+bool GetWebhook_200_response::isHaveDisabledWebhooks() const
+{
+    return m_HaveDisabledWebhooks;
+}
+
+void GetWebhook_200_response::setHaveDisabledWebhooks(bool value)
+{
+    m_HaveDisabledWebhooks = value;
+    m_HaveDisabledWebhooksIsSet = true;
+}
+
+bool GetWebhook_200_response::haveDisabledWebhooksIsSet() const
+{
+    return m_HaveDisabledWebhooksIsSet;
+}
+
+void GetWebhook_200_response::unsetHaveDisabledWebhooks()
+{
+    m_HaveDisabledWebhooksIsSet = false;
+}
+GetWebhook_200_response::CircuitStateEnum GetWebhook_200_response::getCircuitState() const
+{
+    return m_CircuitState;
+}
+
+
+void GetWebhook_200_response::setCircuitState(const CircuitStateEnum value)
+{
+    m_CircuitState = value;
+    m_CircuitStateIsSet = true;
+}
+
+bool GetWebhook_200_response::circuitStateIsSet() const
+{
+    return m_CircuitStateIsSet;
+}
+
+void GetWebhook_200_response::unsetCircuitState()
+{
+    m_CircuitStateIsSet = false;
+}
+utility::string_t GetWebhook_200_response::getReason() const
+{
+    return m_Reason;
+}
+
+
+void GetWebhook_200_response::setReason(const utility::string_t& value)
+{
+    m_Reason = value;
+    m_ReasonIsSet = true;
+}
+
+bool GetWebhook_200_response::reasonIsSet() const
+{
+    return m_ReasonIsSet;
+}
+
+void GetWebhook_200_response::unsetReason()
+{
+    m_ReasonIsSet = false;
+}
+int32_t GetWebhook_200_response::getFails() const
+{
+    return m_Fails;
+}
+
+void GetWebhook_200_response::setFails(int32_t value)
+{
+    m_Fails = value;
+    m_FailsIsSet = true;
+}
+
+bool GetWebhook_200_response::failsIsSet() const
+{
+    return m_FailsIsSet;
+}
+
+void GetWebhook_200_response::unsetFails()
+{
+    m_FailsIsSet = false;
+}
+int32_t GetWebhook_200_response::getTrips() const
+{
+    return m_Trips;
+}
+
+void GetWebhook_200_response::setTrips(int32_t value)
+{
+    m_Trips = value;
+    m_TripsIsSet = true;
+}
+
+bool GetWebhook_200_response::tripsIsSet() const
+{
+    return m_TripsIsSet;
+}
+
+void GetWebhook_200_response::unsetTrips()
+{
+    m_TripsIsSet = false;
+}
+int32_t GetWebhook_200_response::getDisabledAt() const
+{
+    return m_DisabledAt;
+}
+
+void GetWebhook_200_response::setDisabledAt(int32_t value)
+{
+    m_DisabledAt = value;
+    m_DisabledAtIsSet = true;
+}
+
+bool GetWebhook_200_response::disabledAtIsSet() const
+{
+    return m_DisabledAtIsSet;
+}
+
+void GetWebhook_200_response::unsetDisabledAt()
+{
+    m_DisabledAtIsSet = false;
+}
+int32_t GetWebhook_200_response::getFirstFailAt() const
+{
+    return m_FirstFailAt;
+}
+
+void GetWebhook_200_response::setFirstFailAt(int32_t value)
+{
+    m_FirstFailAt = value;
+    m_FirstFailAtIsSet = true;
+}
+
+bool GetWebhook_200_response::firstFailAtIsSet() const
+{
+    return m_FirstFailAtIsSet;
+}
+
+void GetWebhook_200_response::unsetFirstFailAt()
+{
+    m_FirstFailAtIsSet = false;
+}
+int32_t GetWebhook_200_response::getLastStatus() const
+{
+    return m_LastStatus;
+}
+
+void GetWebhook_200_response::setLastStatus(int32_t value)
+{
+    m_LastStatus = value;
+    m_LastStatusIsSet = true;
+}
+
+bool GetWebhook_200_response::lastStatusIsSet() const
+{
+    return m_LastStatusIsSet;
+}
+
+void GetWebhook_200_response::unsetLastStatus()
+{
+    m_LastStatusIsSet = false;
+}
+int32_t GetWebhook_200_response::getNextProbeAt() const
+{
+    return m_NextProbeAt;
+}
+
+void GetWebhook_200_response::setNextProbeAt(int32_t value)
+{
+    m_NextProbeAt = value;
+    m_NextProbeAtIsSet = true;
+}
+
+bool GetWebhook_200_response::nextProbeAtIsSet() const
+{
+    return m_NextProbeAtIsSet;
+}
+
+void GetWebhook_200_response::unsetNextProbeAt()
+{
+    m_NextProbeAtIsSet = false;
+}
+std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> GetWebhook_200_response::getDisabledWebhooks() const
+{
+    return m_DisabledWebhooks;
+}
+
+
+void GetWebhook_200_response::setDisabledWebhooks(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value)
+{
+    m_DisabledWebhooks = value;
+    m_DisabledWebhooksIsSet = true;
+}
+
+bool GetWebhook_200_response::disabledWebhooksIsSet() const
+{
+    return m_DisabledWebhooksIsSet;
+}
+
+void GetWebhook_200_response::unsetDisabledWebhooks()
+{
+    m_DisabledWebhooksIsSet = false;
+}
+std::vector<std::shared_ptr<WebhookUrlStatus>> GetWebhook_200_response::getWebhookStatuses() const
+{
+    return m_WebhookStatuses;
+}
+
+
+void GetWebhook_200_response::setWebhookStatuses(const std::vector<std::shared_ptr<WebhookUrlStatus>>& value)
+{
+    m_WebhookStatuses = value;
+    m_WebhookStatusesIsSet = true;
+}
+
+bool GetWebhook_200_response::webhookStatusesIsSet() const
+{
+    return m_WebhookStatusesIsSet;
+}
+
+void GetWebhook_200_response::unsetWebhookStatuses()
+{
+    m_WebhookStatusesIsSet = false;
 }
 
 
