@@ -5,7 +5,7 @@ export default {
   sourceRoots: ["quality", "eslint.config.mjs", "quality.config.mjs"],
   generated: [],
   comments: {
-    full: ["quality/**/*.mjs"],
+    full: ["quality/**/*.{js,jsx,mjs,cjs}"],
   },
   duplicatePaths: ["quality"],
   duplicateMaxPercentage: 0,

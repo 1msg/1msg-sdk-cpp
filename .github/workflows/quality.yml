@@ -24,7 +24,7 @@ jobs:
           java-version: "24"
       - run: npm ci
       - run: npm --prefix tools/quality ci
-      - run: node --test tools/quality/test/*.test.mjs
+      - run: npm run test:quality
       - run: node tools/quality/run.mjs guards
       - run: npm run format:check
       - run: npm run lint:static

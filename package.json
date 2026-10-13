@@ -8,18 +8,25 @@
   },
   "packageManager": "npm@11.17.0",
   "scripts": {
-    "format:check": "node tools/quality/node_modules/prettier/bin/prettier.cjs --check \"quality/**/*.mjs\" \"*.mjs\" package.json knip.json .github/workflows/quality.yml AGENTS.md",
-    "format": "node tools/quality/node_modules/prettier/bin/prettier.cjs --write \"quality/**/*.mjs\" \"*.mjs\" package.json knip.json .github/workflows/quality.yml AGENTS.md",
-    "lint:static": "node tools/quality/node_modules/eslint/bin/eslint.js . --max-warnings=0",
+    "format:check": "node tools/quality/node_modules/prettier/bin/prettier.cjs --check \"quality/**/*.{js,jsx,mjs,cjs}\" \"*.{js,jsx,mjs,cjs}\" package.json knip.json .github/workflows/quality.yml AGENTS.md",
+    "format": "node tools/quality/node_modules/prettier/bin/prettier.cjs --write \"quality/**/*.{js,jsx,mjs,cjs}\" \"*.{js,jsx,mjs,cjs}\" package.json knip.json .github/workflows/quality.yml AGENTS.md",
+    "lint:static": "node quality/typescript-policy.mjs && node tools/quality/node_modules/eslint/bin/eslint.js . --max-warnings=0",
     "quality:guards": "node tools/quality/run.mjs guards",
     "lint:unused:production": "node tools/quality/run.mjs unused-production",
     "lint:unused:full": "node tools/quality/run.mjs unused-full",
     "lint:duplicates": "node tools/quality/run.mjs duplicates",
     "lint:duplicates:full": "node tools/quality/run.mjs duplicates-full",
-    "test:quality": "node --test tools/quality/test/*.test.mjs",
+    "test:quality": "node --test tools/quality/test/*.test.mjs quality/hooks.test.mjs",
     "hooks:install": "node tools/quality/node_modules/husky/bin.js"
   },
   "lint-staged": {
-    "*.{mjs,json,md,yml}": "node tools/quality/node_modules/prettier/bin/prettier.cjs --write"
+    "*.{js,jsx,mjs,cjs}": [
+      "node tools/quality/node_modules/prettier/bin/prettier.cjs --write",
+      "node tools/quality/node_modules/eslint/bin/eslint.js --config eslint.config.mjs --max-warnings=0"
+    ],
+    "*.{ts,tsx,mts,cts}": [
+      "node quality/typescript-policy.mjs"
+    ],
+    "*.{json,md,yml,yaml}": "node tools/quality/node_modules/prettier/bin/prettier.cjs --write"
   }
 }
