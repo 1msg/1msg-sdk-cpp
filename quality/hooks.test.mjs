@@ -23,6 +23,7 @@ const configuration = {
   typed: false,
   files: [
     "package.json",
+    "quality.config.mjs",
     "quality/typescript-policy.mjs",
     ".husky/pre-commit",
     "eslint.config.mjs",
