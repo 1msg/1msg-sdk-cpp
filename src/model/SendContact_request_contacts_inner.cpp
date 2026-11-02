@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -111,7 +111,7 @@ bool SendContact_request_contacts_inner::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("addresses")));
         if(!fieldValue.is_null())
         {
-            std::vector<std::shared_ptr<AnyType>> refVal_setAddresses;
+            std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setAddresses;
             ok &= ModelBase::fromJson(fieldValue, refVal_setAddresses);
             setAddresses(refVal_setAddresses);
             
@@ -122,7 +122,7 @@ bool SendContact_request_contacts_inner::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("emails")));
         if(!fieldValue.is_null())
         {
-            std::vector<std::shared_ptr<AnyType>> refVal_setEmails;
+            std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setEmails;
             ok &= ModelBase::fromJson(fieldValue, refVal_setEmails);
             setEmails(refVal_setEmails);
             
@@ -155,7 +155,7 @@ bool SendContact_request_contacts_inner::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("urls")));
         if(!fieldValue.is_null())
         {
-            std::vector<std::shared_ptr<AnyType>> refVal_setUrls;
+            std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setUrls;
             ok &= ModelBase::fromJson(fieldValue, refVal_setUrls);
             setUrls(refVal_setUrls);
             
@@ -224,13 +224,13 @@ bool SendContact_request_contacts_inner::fromMultiPart(std::shared_ptr<Multipart
     }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("addresses"))))
     {
-        std::vector<std::shared_ptr<AnyType>> refVal_setAddresses;
+        std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setAddresses;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("addresses"))), refVal_setAddresses );
         setAddresses(refVal_setAddresses);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("emails"))))
     {
-        std::vector<std::shared_ptr<AnyType>> refVal_setEmails;
+        std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setEmails;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("emails"))), refVal_setEmails );
         setEmails(refVal_setEmails);
     }
@@ -248,7 +248,7 @@ bool SendContact_request_contacts_inner::fromMultiPart(std::shared_ptr<Multipart
     }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("urls"))))
     {
-        std::vector<std::shared_ptr<AnyType>> refVal_setUrls;
+        std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> refVal_setUrls;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("urls"))), refVal_setUrls );
         setUrls(refVal_setUrls);
     }
@@ -298,13 +298,13 @@ void SendContact_request_contacts_inner::unsetBirthday()
 {
     m_BirthdayIsSet = false;
 }
-std::vector<std::shared_ptr<AnyType>> SendContact_request_contacts_inner::getAddresses() const
+std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> SendContact_request_contacts_inner::getAddresses() const
 {
     return m_Addresses;
 }
 
 
-void SendContact_request_contacts_inner::setAddresses(const std::vector<std::shared_ptr<AnyType>>& value)
+void SendContact_request_contacts_inner::setAddresses(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value)
 {
     m_Addresses = value;
     m_AddressesIsSet = true;
@@ -319,13 +319,13 @@ void SendContact_request_contacts_inner::unsetAddresses()
 {
     m_AddressesIsSet = false;
 }
-std::vector<std::shared_ptr<AnyType>> SendContact_request_contacts_inner::getEmails() const
+std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> SendContact_request_contacts_inner::getEmails() const
 {
     return m_Emails;
 }
 
 
-void SendContact_request_contacts_inner::setEmails(const std::vector<std::shared_ptr<AnyType>>& value)
+void SendContact_request_contacts_inner::setEmails(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value)
 {
     m_Emails = value;
     m_EmailsIsSet = true;
@@ -382,13 +382,13 @@ void SendContact_request_contacts_inner::unsetPhones()
 {
     m_PhonesIsSet = false;
 }
-std::vector<std::shared_ptr<AnyType>> SendContact_request_contacts_inner::getUrls() const
+std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> SendContact_request_contacts_inner::getUrls() const
 {
     return m_Urls;
 }
 
 
-void SendContact_request_contacts_inner::setUrls(const std::vector<std::shared_ptr<AnyType>>& value)
+void SendContact_request_contacts_inner::setUrls(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value)
 {
     m_Urls = value;
     m_UrlsIsSet = true;

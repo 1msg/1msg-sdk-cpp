@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -35,7 +35,7 @@ TemplatesApi::~TemplatesApi()
 {
 }
 
-pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> TemplatesApi::addTemplate(utility::string_t token, boost::optional<std::shared_ptr<AddTemplate_request>> addTemplateRequest) const
+pplx::task<std::shared_ptr<AddTemplate_200_response>> TemplatesApi::addTemplate(utility::string_t token, boost::optional<std::shared_ptr<AddTemplate_request>> addTemplateRequest) const
 {
 
 
@@ -164,18 +164,13 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> TemplatesApi::
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        std::map<utility::string_t, std::shared_ptr<AnyType>> localVarResult;
+        std::shared_ptr<AddTemplate_200_response> localVarResult(new AddTemplate_200_response());
 
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
 
-            for( auto& localVarItem : localVarJson.as_object() )
-            {
-                std::shared_ptr<AnyType> localVarItemObj;
-                ModelBase::fromJson(localVarItem.second, localVarItemObj);
-                localVarResult[localVarItem.first] = localVarItemObj;
-            }
+            ModelBase::fromJson(localVarJson, localVarResult);
         }
         // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
         // {
@@ -190,7 +185,7 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> TemplatesApi::
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ListTemplates_200_response>> TemplatesApi::listTemplates(utility::string_t token) const
+pplx::task<std::shared_ptr<ListTemplates_200_response>> TemplatesApi::listTemplates(utility::string_t token, boost::optional<int32_t> limit, boost::optional<int32_t> offset, boost::optional<utility::string_t> sort) const
 {
 
 
@@ -233,6 +228,18 @@ pplx::task<std::shared_ptr<ListTemplates_200_response>> TemplatesApi::listTempla
 
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
+    }
+    if (limit)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+    }
+    if (offset)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("offset")] = ApiClient::parameterToString(*offset);
+    }
+    if (sort)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("sort")] = ApiClient::parameterToString(*sort);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -323,8 +330,14 @@ pplx::task<std::shared_ptr<ListTemplates_200_response>> TemplatesApi::listTempla
         return localVarResult;
     });
 }
-pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> TemplatesApi::removeTemplate(utility::string_t token, boost::optional<std::map<utility::string_t, std::shared_ptr<AnyType>>> requestBody) const
+pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> TemplatesApi::removeTemplate(utility::string_t token, std::shared_ptr<RemoveTemplate_request> removeTemplateRequest) const
 {
+
+    // verify the required parameter 'removeTemplateRequest' is set
+    if (removeTemplateRequest == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'removeTemplateRequest' when calling TemplatesApi->removeTemplate"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -378,8 +391,8 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> TemplatesApi::
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
-        if (requestBody)
-            localVarJson = ModelBase::toJson(*requestBody);
+        localVarJson = ModelBase::toJson(removeTemplateRequest);
+        
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -389,14 +402,9 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> TemplatesApi::
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
+        if(removeTemplateRequest.get())
         {
-            std::map<utility::string_t, web::json::value> localVarJsonMap;
-            for( auto& localVarItem : requestBody.get() )
-            {
-                web::json::value jval;
-                localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
-            }
-            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("requestBody"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
+            removeTemplateRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("removeTemplateRequest"));
         }
         
 

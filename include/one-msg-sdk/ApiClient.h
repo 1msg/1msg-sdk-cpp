@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -64,6 +64,11 @@ public:
     static utility::string_t parameterToString(const utility::datetime &value);
     static utility::string_t parameterToString(bool value);
     static utility::string_t parameterToString(const ModelBase& value);
+    // 1MSG: map form values use generated JSON serializers.
+    template<class T>
+    static utility::string_t parameterToString(const std::map<utility::string_t, T>& value) {
+        return ModelBase::toJson(value).serialize();
+    }
     template<class T>
     static utility::string_t parameterToString(const std::vector<T>& value);
     template<class T>

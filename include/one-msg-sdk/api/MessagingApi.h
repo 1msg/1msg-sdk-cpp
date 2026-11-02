@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -26,6 +26,8 @@
 #include "one-msg-sdk/AnyType.h"
 #include "one-msg-sdk/model/CreateReadMessage_200_response.h"
 #include "one-msg-sdk/model/CreateReadMessage_401_response.h"
+#include "one-msg-sdk/model/CreateUploadMedia_200_response.h"
+#include "one-msg-sdk/model/CreateUploadMedia_request.h"
 #include "one-msg-sdk/model/DeleteMediaLegacy_request.h"
 #include "one-msg-sdk/model/ErrorResponse.h"
 #include "one-msg-sdk/model/GetMmLiteStatus_200_response.h"
@@ -42,6 +44,7 @@
 #include "one-msg-sdk/model/SendLocationRequest_request.h"
 #include "one-msg-sdk/model/SendOrderDetails_request.h"
 #include "one-msg-sdk/model/SendPaymentRequest_request.h"
+#include "one-msg-sdk/model/SendProduct_request.h"
 #include "one-msg-sdk/model/SendReaction_request.h"
 #include "one-msg-sdk/model/SendSticker_request.h"
 #include "one-msg-sdk/model/SuccessResponse.h"
@@ -85,13 +88,13 @@ public:
     /// Upload media
     /// </summary>
     /// <remarks>
-    /// 
+    /// Upload a file to WhatsApp media storage and get a numeric &#x60;mediaId&#x60; for later use with &#x60;send_file&#x60; / &#x60;send_sticker&#x60; (&#x60;mediaId&#x60; field, not &#x60;body&#x60;).  Pass the file as &#x60;body&#x60; **or** &#x60;url&#x60; — an HTTP(S) URL or a base64 data URI. The &#x60;mediaId&#x60; in the response is a numeric string (keep it as a string). 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
-    /// <param name="requestBody"> (optional)</param>
-    pplx::task<void> createUploadMedia(
+    /// <param name="createUploadMediaRequest"></param>
+    pplx::task<std::shared_ptr<CreateUploadMedia_200_response>> createUploadMedia(
         utility::string_t token,
-        boost::optional<std::map<utility::string_t, std::shared_ptr<AnyType>>> requestBody
+        std::shared_ptr<CreateUploadMedia_request> createUploadMediaRequest
     ) const;
     /// <summary>
     /// Delete media from WABA storage
@@ -131,11 +134,27 @@ public:
     /// Get messages list
     /// </summary>
     /// <remarks>
-    /// 
+    /// List stored chat history for this channel (requires history storage). Filter with &#x60;chatId&#x60;, &#x60;limit&#x60;, &#x60;last&#x60;, message numbers, or time bounds. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="chatId">Filter messages for one chat (&#x60;phone@c.us&#x60;, group &#x60;@g.us&#x60;, or BSUID &#x60;@lid&#x60;) (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="limit">Max rows to return (default 100) (optional, default to 0)</param>
+    /// <param name="last">If true, return the latest messages (DESC). Default false. (optional, default to false)</param>
+    /// <param name="lastMessageNumber"> (optional, default to 0)</param>
+    /// <param name="firstMessageNumber"> (optional, default to 0)</param>
+    /// <param name="minTime">Unix timestamp lower bound (optional, default to 0)</param>
+    /// <param name="maxTime">Unix timestamp upper bound (optional, default to 0)</param>
+    /// <param name="msgId">Filter by stored message id (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     pplx::task<std::shared_ptr<ListMessages_200_response>> listMessages(
-        utility::string_t token
+        utility::string_t token,
+        boost::optional<utility::string_t> chatId,
+        boost::optional<int32_t> limit,
+        boost::optional<bool> last,
+        boost::optional<int32_t> lastMessageNumber,
+        boost::optional<int32_t> firstMessageNumber,
+        boost::optional<int32_t> minTime,
+        boost::optional<int32_t> maxTime,
+        boost::optional<utility::string_t> msgId
     ) const;
     /// <summary>
     /// Retrieve uploaded media metadata
@@ -177,18 +196,20 @@ public:
     /// Send Carousel
     /// </summary>
     /// <remarks>
-    /// You can send product cards via Carousel in two ways:  Template messages: do not require a 24-hour customer service window between you and the recipient. Use sendTemplate.  Free-form messages: can be sent only when a customer service window is open between you and the recipient. Use sendCarousel.  The message structure in /sendCarousel is largely similar to sending a template. However, in this case you must  explicitly specify all elements that are created in advance when working with templates. This is because the message  is sent without using a template.  In /sendCarousel, for sending a Catalog Carousel there can be either 1 URL button or one or more quick reply buttons. 
+    /// You can send product cards via Carousel in two ways:  Template messages: do not require a 24-hour customer service window between you and the recipient. Use sendTemplate.  Free-form messages: can be sent only when a customer service window is open between you and the recipient. Use sendCarousel.  The message structure in /sendCarousel is largely similar to sending a template. However, in this case you must  explicitly specify all elements that are created in advance when working with templates. This is because the message  is sent without using a template.  In /sendCarousel, for a Catalog Carousel there can be either 1 URL button or one or more quick reply buttons.  Prefer the simple &#x60;cards&#x60; array (2–10 cards). Each card needs a header media/product plus a CTA URL or quick-reply buttons. Example:  &#x60;&#x60;&#x60;json {   \&quot;phone\&quot;: \&quot;79001234567\&quot;,   \&quot;body\&quot;: \&quot;Pick a product\&quot;,   \&quot;cards\&quot;: [     {       \&quot;header\&quot;: { \&quot;type\&quot;: \&quot;image\&quot;, \&quot;image\&quot;: { \&quot;link\&quot;: \&quot;https://example.com/1.jpg\&quot; } },       \&quot;body\&quot;: { \&quot;text\&quot;: \&quot;Card one\&quot; },       \&quot;type\&quot;: \&quot;cta_url\&quot;,       \&quot;action\&quot;: { \&quot;name\&quot;: \&quot;cta_url\&quot;, \&quot;parameters\&quot;: { \&quot;url\&quot;: \&quot;https://example.com/p1\&quot;, \&quot;display_text\&quot;: \&quot;Open\&quot; } }     },     {       \&quot;header\&quot;: { \&quot;type\&quot;: \&quot;image\&quot;, \&quot;image\&quot;: { \&quot;link\&quot;: \&quot;https://example.com/2.jpg\&quot; } },       \&quot;body\&quot;: { \&quot;text\&quot;: \&quot;Card two\&quot; },       \&quot;type\&quot;: \&quot;cta_url\&quot;,       \&quot;action\&quot;: { \&quot;name\&quot;: \&quot;cta_url\&quot;, \&quot;parameters\&quot;: { \&quot;url\&quot;: \&quot;https://example.com/p2\&quot;, \&quot;display_text\&quot;: \&quot;Open\&quot; } }     }   ] } &#x60;&#x60;&#x60;  &#x60;params&#x60; with a &#x60;CAROUSEL&#x60; component is the template-like alternative. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
-    /// <param name="params">Required. Template-like structure (same as sendTemplate params). Must include a CAROUSEL component and its cards.  Structure: - params[] item with type CAROUSEL and cards (2..10) - cards[] item:   - components[] items:     - header: parameters[0] with type image/video/product       - image: {\\\&quot;image\\\&quot;: {\\\&quot;link\\\&quot;: \\\&quot;https://...\\\&quot;}}       - video: {\\\&quot;video\\\&quot;: {\\\&quot;link\\\&quot;: \\\&quot;https://...\\\&quot;}}       - product: {\\\&quot;product\\\&quot;: {\\\&quot;catalog_id\\\&quot;: \\\&quot;...\\\&quot;, \\\&quot;product_retailer_id\\\&quot;: \\\&quot;...\\\&quot;}}     - button: sub_type url or quick_reply       - url: parameters {\\\&quot;text\\\&quot;: \\\&quot;Button\\\&quot;, \\\&quot;url\\\&quot;: \\\&quot;https://...\\\&quot;}       - quick_reply: parameters[] of {\\\&quot;id\\\&quot;: \\\&quot;...\\\&quot;, \\\&quot;text\\\&quot;: \\\&quot;...\\\&quot;} </param>
     /// <param name="body">Text shown above the carousel. Optional. If omitted and params include a body component, the body will be taken from params. (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="cards">Preferred. 2–10 carousel cards (header + body + CTA or quick replies). (optional, default to std::map&lt;utility::string_t, AnyType&gt;())</param>
+    /// <param name="params">Required. Template-like structure (same as sendTemplate params). Must include a CAROUSEL component and its cards.  Structure: - params[] item with type CAROUSEL and cards (2..10) - cards[] item:   - components[] items:     - header: parameters[0] with type image/video/product       - image: {\\\&quot;image\\\&quot;: {\\\&quot;link\\\&quot;: \\\&quot;https://...\\\&quot;}}       - video: {\\\&quot;video\\\&quot;: {\\\&quot;link\\\&quot;: \\\&quot;https://...\\\&quot;}}       - product: {\\\&quot;product\\\&quot;: {\\\&quot;catalog_id\\\&quot;: \\\&quot;...\\\&quot;, \\\&quot;product_retailer_id\\\&quot;: \\\&quot;...\\\&quot;}}     - button: sub_type url or quick_reply       - url: parameters {\\\&quot;text\\\&quot;: \\\&quot;Button\\\&quot;, \\\&quot;url\\\&quot;: \\\&quot;https://...\\\&quot;}       - quick_reply: parameters[] of {\\\&quot;id\\\&quot;: \\\&quot;...\\\&quot;, \\\&quot;text\\\&quot;: \\\&quot;...\\\&quot;}  (optional, default to new Object())</param>
     /// <param name="quotedMsgId">Quoted message ID (Cloud API) (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="chatId">Required if phone is not set. Chat ID from the message list. Examples: 12020721369@c.us or 120363046942338209@g.us(group) (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="phone">Required if chatId is not set. A phone number starting with the country code. USA example: 12020721369. (optional, default to 0)</param>
     pplx::task<std::shared_ptr<MessageSentResponse>> sendCarousel(
         utility::string_t token,
-        std::vector<std::shared_ptr<Object>> params,
         boost::optional<utility::string_t> body,
+        boost::optional<std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>> cards,
+        boost::optional<std::vector<std::shared_ptr<Object>>> params,
         boost::optional<utility::string_t> quotedMsgId,
         boost::optional<utility::string_t> chatId,
         boost::optional<int32_t> phone
@@ -197,7 +218,7 @@ public:
     /// Send a Contact
     /// </summary>
     /// <remarks>
-    /// 
+    /// Send a WhatsApp contact card.  Preferred simple body (legacy-compatible):  &#x60;&#x60;&#x60;json {   \&quot;phone\&quot;: \&quot;79001234567\&quot;,   \&quot;contact\&quot;: { \&quot;name\&quot;: \&quot;Lida\&quot;, \&quot;phone\&quot;: \&quot;+79181976551\&quot; } } &#x60;&#x60;&#x60;  Cloud API shape also works: &#x60;contacts&#x60; is an array of objects with &#x60;name.formatted_name&#x60; and &#x60;phones[].phone&#x60; (E.164 string, **not** a timestamp). 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
     /// <param name="sendContactRequest"> (optional)</param>
@@ -342,7 +363,7 @@ public:
     /// <param name="token">JWT token or API key for authorization</param>
     /// <param name="body">Message text, UTF-8 or UTF-16 string with emoji</param>
     /// <param name="quotedMsgId">Message ID to quote/reply to (Cloud API wamid) (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="chatId">Chat ID in format: phone@c.us (individual) or phone@g.us (group) (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="chatId">Recipient chat ID: phone@c.us, group@g.us, or BSUID@lid (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     /// <param name="phone">Phone number starting with country code (alternative to chatId) (optional, default to 0)</param>
     pplx::task<std::shared_ptr<MessageSentResponse>> sendMessage(
         utility::string_t token,
@@ -379,13 +400,13 @@ public:
     /// Send a Product
     /// </summary>
     /// <remarks>
-    /// 
+    /// Send a single catalog product or a product list. Destination is &#x60;chatId&#x60; or &#x60;phone&#x60;. &#x60;action&#x60; is required: - single product: &#x60;{ \&quot;catalog_id\&quot;: \&quot;...\&quot;, \&quot;product_retailer_id\&quot;: \&quot;...\&quot; }&#x60; - product list: &#x60;{ \&quot;catalog_id\&quot;: \&quot;...\&quot;, \&quot;sections\&quot;: [{ \&quot;title\&quot;: \&quot;...\&quot;, \&quot;product_items\&quot;: [{ \&quot;product_retailer_id\&quot;: \&quot;...\&quot; }] }] }&#x60; 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
-    /// <param name="requestBody"> (optional)</param>
+    /// <param name="sendProductRequest"></param>
     pplx::task<std::shared_ptr<MessageSentResponse>> sendProduct(
         utility::string_t token,
-        boost::optional<std::map<utility::string_t, std::shared_ptr<AnyType>>> requestBody
+        std::shared_ptr<SendProduct_request> sendProductRequest
     ) const;
     /// <summary>
     /// Send Reaction

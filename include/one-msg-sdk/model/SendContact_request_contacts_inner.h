@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -27,6 +27,7 @@
 #include "one-msg-sdk/model/SendContact_request_contacts_inner_name.h"
 #include "one-msg-sdk/AnyType.h"
 #include <cpprest/details/basic_types.h>
+#include <map>
 #include <vector>
 #include "one-msg-sdk/model/SendContact_request_contacts_inner_phones_inner.h"
 
@@ -72,15 +73,15 @@ public:
     void unsetBirthday();
     void setBirthday(const utility::string_t& value);
 
-    std::vector<std::shared_ptr<AnyType>> getAddresses() const;
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> getAddresses() const;
     bool addressesIsSet() const;
     void unsetAddresses();
-    void setAddresses(const std::vector<std::shared_ptr<AnyType>>& value);
+    void setAddresses(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value);
 
-    std::vector<std::shared_ptr<AnyType>> getEmails() const;
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> getEmails() const;
     bool emailsIsSet() const;
     void unsetEmails();
-    void setEmails(const std::vector<std::shared_ptr<AnyType>>& value);
+    void setEmails(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value);
 
     std::shared_ptr<SendContact_request_contacts_inner_org> getOrg() const;
     bool orgIsSet() const;
@@ -92,10 +93,10 @@ public:
     void unsetPhones();
     void setPhones(const std::vector<std::shared_ptr<SendContact_request_contacts_inner_phones_inner>>& value);
 
-    std::vector<std::shared_ptr<AnyType>> getUrls() const;
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> getUrls() const;
     bool urlsIsSet() const;
     void unsetUrls();
-    void setUrls(const std::vector<std::shared_ptr<AnyType>>& value);
+    void setUrls(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value);
 
 
 protected:
@@ -105,10 +106,10 @@ protected:
     utility::string_t m_Birthday;
     bool m_BirthdayIsSet;
 
-    std::vector<std::shared_ptr<AnyType>> m_Addresses;
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> m_Addresses;
     bool m_AddressesIsSet;
 
-    std::vector<std::shared_ptr<AnyType>> m_Emails;
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> m_Emails;
     bool m_EmailsIsSet;
 
     std::shared_ptr<SendContact_request_contacts_inner_org> m_Org;
@@ -117,7 +118,7 @@ protected:
     std::vector<std::shared_ptr<SendContact_request_contacts_inner_phones_inner>> m_Phones;
     bool m_PhonesIsSet;
 
-    std::vector<std::shared_ptr<AnyType>> m_Urls;
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> m_Urls;
     bool m_UrlsIsSet;
 
 };

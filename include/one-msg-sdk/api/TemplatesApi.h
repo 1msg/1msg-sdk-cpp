@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -23,10 +23,12 @@
 
 #include "one-msg-sdk/ApiClient.h"
 
+#include "one-msg-sdk/model/AddTemplate_200_response.h"
 #include "one-msg-sdk/model/AddTemplate_request.h"
 #include "one-msg-sdk/AnyType.h"
 #include "one-msg-sdk/model/ErrorResponse.h"
 #include "one-msg-sdk/model/ListTemplates_200_response.h"
+#include "one-msg-sdk/model/RemoveTemplate_request.h"
 #include "one-msg-sdk/model/SendTemplate_request.h"
 #include <map>
 #include <cpprest/details/basic_types.h>
@@ -52,11 +54,11 @@ public:
     /// Create message template
     /// </summary>
     /// <remarks>
-    /// 
+    /// Create a WABA message template (&#x60;name&#x60;, &#x60;category&#x60;, &#x60;language&#x60;, &#x60;components&#x60;). After create, Meta reviews the template; list it with &#x60;GET /templates&#x60;. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
     /// <param name="addTemplateRequest"> (optional)</param>
-    pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> addTemplate(
+    pplx::task<std::shared_ptr<AddTemplate_200_response>> addTemplate(
         utility::string_t token,
         boost::optional<std::shared_ptr<AddTemplate_request>> addTemplateRequest
     ) const;
@@ -64,29 +66,35 @@ public:
     /// Get templates list
     /// </summary>
     /// <remarks>
-    /// 
+    /// List message templates. Paginate with &#x60;limit&#x60; / &#x60;offset&#x60;; sort by &#x60;id&#x60;, &#x60;name&#x60;, or &#x60;status&#x60;.
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="limit"> (optional, default to 0)</param>
+    /// <param name="offset"> (optional, default to 0)</param>
+    /// <param name="sort">Sort field (&#x60;id&#x60;, &#x60;name&#x60;, or &#x60;status&#x60;) (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     pplx::task<std::shared_ptr<ListTemplates_200_response>> listTemplates(
-        utility::string_t token
+        utility::string_t token,
+        boost::optional<int32_t> limit,
+        boost::optional<int32_t> offset,
+        boost::optional<utility::string_t> sort
     ) const;
     /// <summary>
     /// Remove message template
     /// </summary>
     /// <remarks>
-    /// 
+    /// Delete a message template by &#x60;name&#x60; (all language versions of that name).
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
-    /// <param name="requestBody"> (optional)</param>
+    /// <param name="removeTemplateRequest"></param>
     pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> removeTemplate(
         utility::string_t token,
-        boost::optional<std::map<utility::string_t, std::shared_ptr<AnyType>>> requestBody
+        std::shared_ptr<RemoveTemplate_request> removeTemplateRequest
     ) const;
     /// <summary>
     /// Send Template Message
     /// </summary>
     /// <remarks>
-    /// Send a WhatsApp template message (works outside the 24-hour session window).  Supported &#x60;params&#x60; button &#x60;sub_type&#x60; values include: &#x60;url&#x60;, &#x60;quick_reply&#x60;, &#x60;copy_code&#x60; / &#x60;coupon_code&#x60;, &#x60;catalog&#x60;, &#x60;flow&#x60;, &#x60;limited_time_offer&#x60;, and **&#x60;order_details&#x60;** (WhatsApp Payments **India only** — requires an approved Utility template with an ORDER_DETAILS button).  For India order/invoice payments outside 24h, include a button component:  &#x60;&#x60;&#x60;json {   \&quot;type\&quot;: \&quot;button\&quot;,   \&quot;sub_type\&quot;: \&quot;order_details\&quot;,   \&quot;index\&quot;: 0,   \&quot;parameters\&quot;: [{     \&quot;type\&quot;: \&quot;action\&quot;,     \&quot;action\&quot;: { \&quot;order_details\&quot;: { \&quot;reference_id\&quot;: \&quot;...\&quot;, \&quot;currency\&quot;: \&quot;INR\&quot;, \&quot;order\&quot;: {} } }   }] } &#x60;&#x60;&#x60;  Convenience wrapper with structured fields: &#x60;POST /sendOrderDetails&#x60;. 
+    /// Send a WhatsApp **template** message (works outside the 24-hour session window).  Use this tool — not &#x60;send_message&#x60; — when the 24h session is closed.  &#x60;params&#x60; MUST be Cloud API **component objects**, never a flat list of strings and never the old On-Prem &#x60;hsm&#x60; / &#x60;localizable_params&#x60; format.  Example body variable &#x60;{{1}}&#x60;:  &#x60;&#x60;&#x60;json {   \&quot;type\&quot;: \&quot;body\&quot;,   \&quot;parameters\&quot;: [{ \&quot;type\&quot;: \&quot;text\&quot;, \&quot;text\&quot;: \&quot;Ivan\&quot; }] } &#x60;&#x60;&#x60;  Do not send &#x60;\&quot;type\&quot;: \&quot;hsm\&quot;&#x60; and do not send &#x60;params: [\&quot;Ivan\&quot;, \&quot;123\&quot;]&#x60;.  Supported &#x60;params&#x60; button &#x60;sub_type&#x60; values include: &#x60;url&#x60;, &#x60;quick_reply&#x60;, &#x60;copy_code&#x60; / &#x60;coupon_code&#x60;, &#x60;catalog&#x60;, &#x60;flow&#x60;, &#x60;limited_time_offer&#x60;, and **&#x60;order_details&#x60;** (WhatsApp Payments **India only** — requires an approved Utility template with an ORDER_DETAILS button).  Convenience wrapper with structured fields: &#x60;POST /sendOrderDetails&#x60;. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
     /// <param name="sendTemplateRequest"> (optional)</param>

@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -13,7 +13,7 @@
 /*
  * SendTemplate_request_language.h
  *
- * 
+ * Template language. Always set &#x60;policy&#x60; to &#x60;deterministic&#x60;.
  */
 
 #ifndef ONEMSG_SDK_MODEL_SendTemplate_request_language_H_
@@ -31,6 +31,9 @@ namespace model {
 
 
 
+/// <summary>
+/// Template language. Always set &#x60;policy&#x60; to &#x60;deterministic&#x60;.
+/// </summary>
 class  SendTemplate_request_language
     : public ModelBase
 {
@@ -54,6 +57,9 @@ public:
     /// SendTemplate_request_language members
 
 
+    /// <summary>
+    /// Must be &#x60;deterministic&#x60;
+    /// </summary>
     utility::string_t getPolicy() const;
     bool policyIsSet() const;
     void unsetPolicy();

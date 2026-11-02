@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -54,10 +54,21 @@ public:
     /// SendReaction_request members
 
 
+    /// <summary>
+    /// Recipient phone with country code. Use phone or chatId.
+    /// </summary>
     utility::string_t getPhone() const;
     bool phoneIsSet() const;
     void unsetPhone();
     void setPhone(const utility::string_t& value);
+
+    /// <summary>
+    /// Recipient chat ID (&#x60;phone@c.us&#x60;, group &#x60;@g.us&#x60;, or BSUID &#x60;@lid&#x60;). Use phone or chatId.
+    /// </summary>
+    utility::string_t getChatId() const;
+    bool chatIdIsSet() const;
+    void unsetChatId();
+    void setChatId(const utility::string_t& value);
 
     utility::string_t getBody() const;
     bool bodyIsSet() const;
@@ -73,6 +84,9 @@ public:
 protected:
     utility::string_t m_Phone;
     bool m_PhoneIsSet;
+
+    utility::string_t m_ChatId;
+    bool m_ChatIdIsSet;
 
     utility::string_t m_Body;
     bool m_BodyIsSet;

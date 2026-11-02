@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -22,10 +22,16 @@ SendButton_request::SendButton_request()
 {
     m_Phone = utility::conversions::to_string_t("");
     m_PhoneIsSet = false;
+    m_ChatId = utility::conversions::to_string_t("");
+    m_ChatIdIsSet = false;
+    m_QuotedMsgId = utility::conversions::to_string_t("");
+    m_QuotedMsgIdIsSet = false;
     m_Body = utility::conversions::to_string_t("");
     m_BodyIsSet = false;
     m_Footer = utility::conversions::to_string_t("");
     m_FooterIsSet = false;
+    m_HeaderIsSet = false;
+    m_ButtonsIsSet = false;
     m_SectionsIsSet = false;
 }
 
@@ -46,6 +52,16 @@ web::json::value SendButton_request::toJson() const
         
         val[utility::conversions::to_string_t(_XPLATSTR("phone"))] = ModelBase::toJson(m_Phone);
     }
+    if(m_ChatIdIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("chatId"))] = ModelBase::toJson(m_ChatId);
+    }
+    if(m_QuotedMsgIdIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))] = ModelBase::toJson(m_QuotedMsgId);
+    }
     if(m_BodyIsSet)
     {
         
@@ -55,6 +71,16 @@ web::json::value SendButton_request::toJson() const
     {
         
         val[utility::conversions::to_string_t(_XPLATSTR("footer"))] = ModelBase::toJson(m_Footer);
+    }
+    if(m_HeaderIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("header"))] = ModelBase::toJson(m_Header);
+    }
+    if(m_ButtonsIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("buttons"))] = ModelBase::toJson(m_Buttons);
     }
     if(m_SectionsIsSet)
     {
@@ -79,6 +105,28 @@ bool SendButton_request::fromJson(const web::json::value& val)
             
         }
     }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("chatId"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("chatId")));
+        if(!fieldValue.is_null())
+        {
+            utility::string_t refVal_setChatId;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setChatId);
+            setChatId(refVal_setChatId);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId")));
+        if(!fieldValue.is_null())
+        {
+            utility::string_t refVal_setQuotedMsgId;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setQuotedMsgId);
+            setQuotedMsgId(refVal_setQuotedMsgId);
+            
+        }
+    }
     if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("body"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("body")));
@@ -98,6 +146,28 @@ bool SendButton_request::fromJson(const web::json::value& val)
             utility::string_t refVal_setFooter;
             ok &= ModelBase::fromJson(fieldValue, refVal_setFooter);
             setFooter(refVal_setFooter);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("header"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("header")));
+        if(!fieldValue.is_null())
+        {
+            std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setHeader;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setHeader);
+            setHeader(refVal_setHeader);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("buttons"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("buttons")));
+        if(!fieldValue.is_null())
+        {
+            std::vector<std::shared_ptr<Object>> refVal_setButtons;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setButtons);
+            setButtons(refVal_setButtons);
             
         }
     }
@@ -126,6 +196,14 @@ void SendButton_request::toMultipart(std::shared_ptr<MultipartFormData> multipar
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("phone")), m_Phone));
     }
+    if(m_ChatIdIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("chatId")), m_ChatId));
+    }
+    if(m_QuotedMsgIdIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("quotedMsgId")), m_QuotedMsgId));
+    }
     if(m_BodyIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("body")), m_Body));
@@ -133,6 +211,14 @@ void SendButton_request::toMultipart(std::shared_ptr<MultipartFormData> multipar
     if(m_FooterIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("footer")), m_Footer));
+    }
+    if(m_HeaderIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("header")), m_Header));
+    }
+    if(m_ButtonsIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("buttons")), m_Buttons));
     }
     if(m_SectionsIsSet)
     {
@@ -155,6 +241,18 @@ bool SendButton_request::fromMultiPart(std::shared_ptr<MultipartFormData> multip
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("phone"))), refVal_setPhone );
         setPhone(refVal_setPhone);
     }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("chatId"))))
+    {
+        utility::string_t refVal_setChatId;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("chatId"))), refVal_setChatId );
+        setChatId(refVal_setChatId);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))))
+    {
+        utility::string_t refVal_setQuotedMsgId;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))), refVal_setQuotedMsgId );
+        setQuotedMsgId(refVal_setQuotedMsgId);
+    }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("body"))))
     {
         utility::string_t refVal_setBody;
@@ -166,6 +264,18 @@ bool SendButton_request::fromMultiPart(std::shared_ptr<MultipartFormData> multip
         utility::string_t refVal_setFooter;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("footer"))), refVal_setFooter );
         setFooter(refVal_setFooter);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("header"))))
+    {
+        std::map<utility::string_t, std::shared_ptr<AnyType>> refVal_setHeader;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("header"))), refVal_setHeader );
+        setHeader(refVal_setHeader);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("buttons"))))
+    {
+        std::vector<std::shared_ptr<Object>> refVal_setButtons;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("buttons"))), refVal_setButtons );
+        setButtons(refVal_setButtons);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("sections"))))
     {
@@ -197,6 +307,48 @@ bool SendButton_request::phoneIsSet() const
 void SendButton_request::unsetPhone()
 {
     m_PhoneIsSet = false;
+}
+utility::string_t SendButton_request::getChatId() const
+{
+    return m_ChatId;
+}
+
+
+void SendButton_request::setChatId(const utility::string_t& value)
+{
+    m_ChatId = value;
+    m_ChatIdIsSet = true;
+}
+
+bool SendButton_request::chatIdIsSet() const
+{
+    return m_ChatIdIsSet;
+}
+
+void SendButton_request::unsetChatId()
+{
+    m_ChatIdIsSet = false;
+}
+utility::string_t SendButton_request::getQuotedMsgId() const
+{
+    return m_QuotedMsgId;
+}
+
+
+void SendButton_request::setQuotedMsgId(const utility::string_t& value)
+{
+    m_QuotedMsgId = value;
+    m_QuotedMsgIdIsSet = true;
+}
+
+bool SendButton_request::quotedMsgIdIsSet() const
+{
+    return m_QuotedMsgIdIsSet;
+}
+
+void SendButton_request::unsetQuotedMsgId()
+{
+    m_QuotedMsgIdIsSet = false;
 }
 utility::string_t SendButton_request::getBody() const
 {
@@ -239,6 +391,48 @@ bool SendButton_request::footerIsSet() const
 void SendButton_request::unsetFooter()
 {
     m_FooterIsSet = false;
+}
+std::map<utility::string_t, std::shared_ptr<AnyType>> SendButton_request::getHeader() const
+{
+    return m_Header;
+}
+
+
+void SendButton_request::setHeader(const std::map<utility::string_t, std::shared_ptr<AnyType>>& value)
+{
+    m_Header = value;
+    m_HeaderIsSet = true;
+}
+
+bool SendButton_request::headerIsSet() const
+{
+    return m_HeaderIsSet;
+}
+
+void SendButton_request::unsetHeader()
+{
+    m_HeaderIsSet = false;
+}
+std::vector<std::shared_ptr<Object>> SendButton_request::getButtons() const
+{
+    return m_Buttons;
+}
+
+
+void SendButton_request::setButtons(const std::vector<std::shared_ptr<Object>>& value)
+{
+    m_Buttons = value;
+    m_ButtonsIsSet = true;
+}
+
+bool SendButton_request::buttonsIsSet() const
+{
+    return m_ButtonsIsSet;
+}
+
+void SendButton_request::unsetButtons()
+{
+    m_ButtonsIsSet = false;
 }
 std::vector<std::shared_ptr<SendButton_request_sections_inner>> SendButton_request::getSections() const
 {

@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -35,8 +35,14 @@ FlowsApi::~FlowsApi()
 {
 }
 
-pplx::task<std::shared_ptr<CreateGroups_200_response>> FlowsApi::createFlows(utility::string_t token, boost::optional<utility::string_t> wabaAccountId) const
+pplx::task<std::shared_ptr<CreateGroups_200_response>> FlowsApi::createFlows(utility::string_t token, std::shared_ptr<CreateFlows_request> createFlowsRequest, boost::optional<utility::string_t> wabaAccountId) const
 {
+
+    // verify the required parameter 'createFlowsRequest' is set
+    if (createFlowsRequest == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createFlowsRequest' when calling FlowsApi->createFlows"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -75,6 +81,7 @@ pplx::task<std::shared_ptr<CreateGroups_200_response>> FlowsApi::createFlows(uti
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
+    localVarConsumeHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
@@ -91,11 +98,27 @@ pplx::task<std::shared_ptr<CreateGroups_200_response>> FlowsApi::createFlows(uti
     if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
+        web::json::value localVarJson;
+
+        localVarJson = ModelBase::toJson(createFlowsRequest);
+        
+
+        localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+        std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
+
+        if(createFlowsRequest.get())
+        {
+            createFlowsRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("createFlowsRequest"));
+        }
+        
+
+        localVarHttpBody = localVarMultipart;
+        localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
     else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
     {
@@ -1010,7 +1033,7 @@ pplx::task<std::shared_ptr<GetWhatsappBusinessEncryption_200_response>> FlowsApi
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ListFlows_200_response>> FlowsApi::listFlows(utility::string_t token, boost::optional<utility::string_t> wabaAccountId) const
+pplx::task<std::shared_ptr<ListFlows_200_response>> FlowsApi::listFlows(utility::string_t token, boost::optional<utility::string_t> wabaAccountId, boost::optional<utility::string_t> fields) const
 {
 
 
@@ -1057,6 +1080,10 @@ pplx::task<std::shared_ptr<ListFlows_200_response>> FlowsApi::listFlows(utility:
     if (wabaAccountId)
     {
         localVarQueryParams[utility::conversions::to_string_t("wabaAccountId")] = ApiClient::parameterToString(*wabaAccountId);
+    }
+    if (fields)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("fields")] = ApiClient::parameterToString(*fields);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -1147,8 +1174,14 @@ pplx::task<std::shared_ptr<ListFlows_200_response>> FlowsApi::listFlows(utility:
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<PatchFlowsFlowIdAssets_200_response>> FlowsApi::patchFlowsFlowIdAssets(utility::string_t flowId, utility::string_t token, boost::optional<utility::string_t> wabaAccountId) const
+pplx::task<std::shared_ptr<PatchFlowsFlowIdAssets_200_response>> FlowsApi::patchFlowsFlowIdAssets(utility::string_t flowId, utility::string_t token, std::shared_ptr<PatchFlowsFlowIdAssets_request> patchFlowsFlowIdAssetsRequest, boost::optional<utility::string_t> wabaAccountId) const
 {
+
+    // verify the required parameter 'patchFlowsFlowIdAssetsRequest' is set
+    if (patchFlowsFlowIdAssetsRequest == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'patchFlowsFlowIdAssetsRequest' when calling FlowsApi->patchFlowsFlowIdAssets"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -1188,6 +1221,7 @@ pplx::task<std::shared_ptr<PatchFlowsFlowIdAssets_200_response>> FlowsApi::patch
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
+    localVarConsumeHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
@@ -1204,11 +1238,27 @@ pplx::task<std::shared_ptr<PatchFlowsFlowIdAssets_200_response>> FlowsApi::patch
     if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
+        web::json::value localVarJson;
+
+        localVarJson = ModelBase::toJson(patchFlowsFlowIdAssetsRequest);
+        
+
+        localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+        std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
+
+        if(patchFlowsFlowIdAssetsRequest.get())
+        {
+            patchFlowsFlowIdAssetsRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("patchFlowsFlowIdAssetsRequest"));
+        }
+        
+
+        localVarHttpBody = localVarMultipart;
+        localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
     else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
     {
@@ -1285,8 +1335,14 @@ pplx::task<std::shared_ptr<PatchFlowsFlowIdAssets_200_response>> FlowsApi::patch
         return localVarResult;
     });
 }
-pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> FlowsApi::patchFlowsFlowIdMetadata(utility::string_t flowId, utility::string_t token, boost::optional<utility::string_t> wabaAccountId) const
+pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> FlowsApi::patchFlowsFlowIdMetadata(utility::string_t flowId, utility::string_t token, std::shared_ptr<PatchFlowsFlowIdMetadata_request> patchFlowsFlowIdMetadataRequest, boost::optional<utility::string_t> wabaAccountId) const
 {
+
+    // verify the required parameter 'patchFlowsFlowIdMetadataRequest' is set
+    if (patchFlowsFlowIdMetadataRequest == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'patchFlowsFlowIdMetadataRequest' when calling FlowsApi->patchFlowsFlowIdMetadata"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -1326,6 +1382,7 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> FlowsApi::patc
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
+    localVarConsumeHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
@@ -1342,11 +1399,27 @@ pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> FlowsApi::patc
     if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
+        web::json::value localVarJson;
+
+        localVarJson = ModelBase::toJson(patchFlowsFlowIdMetadataRequest);
+        
+
+        localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
     // multipart formdata
     else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
     {
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+        std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
+
+        if(patchFlowsFlowIdMetadataRequest.get())
+        {
+            patchFlowsFlowIdMetadataRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("patchFlowsFlowIdMetadataRequest"));
+        }
+        
+
+        localVarHttpBody = localVarMultipart;
+        localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
     }
     else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
     {

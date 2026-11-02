@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -25,6 +25,7 @@
 
 #include "one-msg-sdk/AnyType.h"
 #include "one-msg-sdk/model/CreateCommerce_200_response.h"
+#include "one-msg-sdk/model/CreateFlows_request.h"
 #include "one-msg-sdk/model/CreateGroups_200_response.h"
 #include "one-msg-sdk/model/CreateReadMessage_401_response.h"
 #include "one-msg-sdk/model/DeleteFlowsFlowId_200_response.h"
@@ -32,6 +33,8 @@
 #include "one-msg-sdk/model/GetWhatsappBusinessEncryption_200_response.h"
 #include "one-msg-sdk/model/ListFlows_200_response.h"
 #include "one-msg-sdk/model/PatchFlowsFlowIdAssets_200_response.h"
+#include "one-msg-sdk/model/PatchFlowsFlowIdAssets_request.h"
+#include "one-msg-sdk/model/PatchFlowsFlowIdMetadata_request.h"
 #include "one-msg-sdk/model/SetWhatsappBusinessEncryption_request.h"
 #include <map>
 #include <cpprest/details/basic_types.h>
@@ -57,12 +60,14 @@ public:
     /// Create Flow
     /// </summary>
     /// <remarks>
-    /// 
+    /// Create a WhatsApp Flow (&#x60;name&#x60; + &#x60;categories&#x60; required). Currently returns HTTP 501 until the Meta Graph Flows rewrite is available. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="createFlowsRequest"></param>
     /// <param name="wabaAccountId"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     pplx::task<std::shared_ptr<CreateGroups_200_response>> createFlows(
         utility::string_t token,
+        std::shared_ptr<CreateFlows_request> createFlowsRequest,
         boost::optional<utility::string_t> wabaAccountId
     ) const;
     /// <summary>
@@ -149,40 +154,46 @@ public:
     /// List Flows
     /// </summary>
     /// <remarks>
-    /// 
+    /// List WhatsApp Flows for the WABA. Currently returns HTTP 501 until the Meta Graph Flows rewrite is available. 
     /// </remarks>
     /// <param name="token">JWT token or API key for authorization</param>
     /// <param name="wabaAccountId"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="fields">Comma-separated Flow fields to return (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     pplx::task<std::shared_ptr<ListFlows_200_response>> listFlows(
         utility::string_t token,
-        boost::optional<utility::string_t> wabaAccountId
+        boost::optional<utility::string_t> wabaAccountId,
+        boost::optional<utility::string_t> fields
     ) const;
     /// <summary>
     /// Update Flow Structure
     /// </summary>
     /// <remarks>
-    /// 
+    /// Replace the Flow JSON document (&#x60;flowJson&#x60;). Currently returns HTTP 501 until the Meta Graph Flows rewrite is available. 
     /// </remarks>
     /// <param name="flowId">Flow ID</param>
     /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="patchFlowsFlowIdAssetsRequest"></param>
     /// <param name="wabaAccountId"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     pplx::task<std::shared_ptr<PatchFlowsFlowIdAssets_200_response>> patchFlowsFlowIdAssets(
         utility::string_t flowId,
         utility::string_t token,
+        std::shared_ptr<PatchFlowsFlowIdAssets_request> patchFlowsFlowIdAssetsRequest,
         boost::optional<utility::string_t> wabaAccountId
     ) const;
     /// <summary>
     /// Update Flow Metadata
     /// </summary>
     /// <remarks>
-    /// 
+    /// Update Flow &#x60;name&#x60;, &#x60;categories&#x60;, and/or &#x60;endpointUri&#x60;. Currently returns HTTP 501 until the Meta Graph Flows rewrite is available. 
     /// </remarks>
     /// <param name="flowId">Flow ID</param>
     /// <param name="token">JWT token or API key for authorization</param>
+    /// <param name="patchFlowsFlowIdMetadataRequest"></param>
     /// <param name="wabaAccountId"> (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
     pplx::task<std::map<utility::string_t, std::shared_ptr<AnyType>>> patchFlowsFlowIdMetadata(
         utility::string_t flowId,
         utility::string_t token,
+        std::shared_ptr<PatchFlowsFlowIdMetadata_request> patchFlowsFlowIdMetadataRequest,
         boost::optional<utility::string_t> wabaAccountId
     ) const;
     /// <summary>

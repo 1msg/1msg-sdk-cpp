@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16)
+project(one-msg-sdk-installed-consumer CXX)
+set(CMAKE_CXX_STANDARD 20)
+find_package(one-msg-sdk REQUIRED)
+enable_testing()
+add_executable(installed-contract ../tests/contract.cpp)
+target_link_libraries(installed-contract PRIVATE one-msg-sdk)
+add_test(NAME installed-contract COMMAND installed-contract)

@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -22,6 +22,11 @@ SendContact_request::SendContact_request()
 {
     m_Phone = utility::conversions::to_string_t("");
     m_PhoneIsSet = false;
+    m_ChatId = utility::conversions::to_string_t("");
+    m_ChatIdIsSet = false;
+    m_QuotedMsgId = utility::conversions::to_string_t("");
+    m_QuotedMsgIdIsSet = false;
+    m_ContactIsSet = false;
     m_ContactsIsSet = false;
 }
 
@@ -41,6 +46,21 @@ web::json::value SendContact_request::toJson() const
     {
         
         val[utility::conversions::to_string_t(_XPLATSTR("phone"))] = ModelBase::toJson(m_Phone);
+    }
+    if(m_ChatIdIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("chatId"))] = ModelBase::toJson(m_ChatId);
+    }
+    if(m_QuotedMsgIdIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))] = ModelBase::toJson(m_QuotedMsgId);
+    }
+    if(m_ContactIsSet)
+    {
+        
+        val[utility::conversions::to_string_t(_XPLATSTR("contact"))] = ModelBase::toJson(m_Contact);
     }
     if(m_ContactsIsSet)
     {
@@ -62,6 +82,39 @@ bool SendContact_request::fromJson(const web::json::value& val)
             utility::string_t refVal_setPhone;
             ok &= ModelBase::fromJson(fieldValue, refVal_setPhone);
             setPhone(refVal_setPhone);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("chatId"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("chatId")));
+        if(!fieldValue.is_null())
+        {
+            utility::string_t refVal_setChatId;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setChatId);
+            setChatId(refVal_setChatId);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId")));
+        if(!fieldValue.is_null())
+        {
+            utility::string_t refVal_setQuotedMsgId;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setQuotedMsgId);
+            setQuotedMsgId(refVal_setQuotedMsgId);
+            
+        }
+    }
+    if(val.has_field(utility::conversions::to_string_t(_XPLATSTR("contact"))))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(_XPLATSTR("contact")));
+        if(!fieldValue.is_null())
+        {
+            std::shared_ptr<SendContact_request_contact> refVal_setContact;
+            ok &= ModelBase::fromJson(fieldValue, refVal_setContact);
+            setContact(refVal_setContact);
             
         }
     }
@@ -90,6 +143,18 @@ void SendContact_request::toMultipart(std::shared_ptr<MultipartFormData> multipa
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("phone")), m_Phone));
     }
+    if(m_ChatIdIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("chatId")), m_ChatId));
+    }
+    if(m_QuotedMsgIdIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("quotedMsgId")), m_QuotedMsgId));
+    }
+    if(m_ContactIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("contact")), m_Contact));
+    }
     if(m_ContactsIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("contacts")), m_Contacts));
@@ -110,6 +175,24 @@ bool SendContact_request::fromMultiPart(std::shared_ptr<MultipartFormData> multi
         utility::string_t refVal_setPhone;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("phone"))), refVal_setPhone );
         setPhone(refVal_setPhone);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("chatId"))))
+    {
+        utility::string_t refVal_setChatId;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("chatId"))), refVal_setChatId );
+        setChatId(refVal_setChatId);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))))
+    {
+        utility::string_t refVal_setQuotedMsgId;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("quotedMsgId"))), refVal_setQuotedMsgId );
+        setQuotedMsgId(refVal_setQuotedMsgId);
+    }
+    if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("contact"))))
+    {
+        std::shared_ptr<SendContact_request_contact> refVal_setContact;
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(_XPLATSTR("contact"))), refVal_setContact );
+        setContact(refVal_setContact);
     }
     if(multipart->hasContent(utility::conversions::to_string_t(_XPLATSTR("contacts"))))
     {
@@ -141,6 +224,69 @@ bool SendContact_request::phoneIsSet() const
 void SendContact_request::unsetPhone()
 {
     m_PhoneIsSet = false;
+}
+utility::string_t SendContact_request::getChatId() const
+{
+    return m_ChatId;
+}
+
+
+void SendContact_request::setChatId(const utility::string_t& value)
+{
+    m_ChatId = value;
+    m_ChatIdIsSet = true;
+}
+
+bool SendContact_request::chatIdIsSet() const
+{
+    return m_ChatIdIsSet;
+}
+
+void SendContact_request::unsetChatId()
+{
+    m_ChatIdIsSet = false;
+}
+utility::string_t SendContact_request::getQuotedMsgId() const
+{
+    return m_QuotedMsgId;
+}
+
+
+void SendContact_request::setQuotedMsgId(const utility::string_t& value)
+{
+    m_QuotedMsgId = value;
+    m_QuotedMsgIdIsSet = true;
+}
+
+bool SendContact_request::quotedMsgIdIsSet() const
+{
+    return m_QuotedMsgIdIsSet;
+}
+
+void SendContact_request::unsetQuotedMsgId()
+{
+    m_QuotedMsgIdIsSet = false;
+}
+std::shared_ptr<SendContact_request_contact> SendContact_request::getContact() const
+{
+    return m_Contact;
+}
+
+
+void SendContact_request::setContact(const std::shared_ptr<SendContact_request_contact>& value)
+{
+    m_Contact = value;
+    m_ContactIsSet = true;
+}
+
+bool SendContact_request::contactIsSet() const
+{
+    return m_ContactIsSet;
+}
+
+void SendContact_request::unsetContact()
+{
+    m_ContactIsSet = false;
 }
 std::vector<std::shared_ptr<SendContact_request_contacts_inner>> SendContact_request::getContacts() const
 {

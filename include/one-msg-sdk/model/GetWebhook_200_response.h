@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -19,14 +19,18 @@
 #ifndef ONEMSG_SDK_MODEL_GetWebhook_200_response_H_
 #define ONEMSG_SDK_MODEL_GetWebhook_200_response_H_
 
+#include <stdexcept>
 #include <boost/optional.hpp>
 
 #include "one-msg-sdk/ModelBase.h"
 
 #include "one-msg-sdk/AnyType.h"
+#include "one-msg-sdk/model/WebhookUrlStatus.h"
 #include <cpprest/details/basic_types.h>
 #include <map>
 #include <cpprest/json.h>
+#include "one-msg-sdk/model/GetWebhook_200_response_webhookUrl.h"
+#include <vector>
 
 namespace onemsg {
 namespace sdk {
@@ -56,11 +60,114 @@ public:
     /////////////////////////////////////////////
     /// GetWebhook_200_response members
 
+    enum class CircuitStateEnum
+    {
+        OK,
+        DEGRADED,
+        OPEN,
+        HALF_OPEN,
+        DISABLED,
+    };
+    /// <summary>
+    /// Compatibility scalar for **one** URL (first sticky-disabled, else first configured). Not the channel as a whole. Prefer &#x60;webhookStatuses[].circuitState&#x60;. 
+    /// </summary>
 
-    utility::string_t getWebhookUrl() const;
+    CircuitStateEnum toCircuitStateEnum(const utility::string_t& value) const;
+    const utility::string_t fromCircuitStateEnum(const CircuitStateEnum value) const;
+
+
+    std::shared_ptr<GetWebhook_200_response_webhookUrl> getWebhookUrl() const;
     bool webhookUrlIsSet() const;
     void unsetWebhookUrl();
-    void setWebhookUrl(const utility::string_t& value);
+    void setWebhookUrl(const std::shared_ptr<GetWebhook_200_response_webhookUrl>& value);
+
+    /// <summary>
+    /// &#x60;true&#x60; when at least one URL in &#x60;webhookUrl&#x60; is sticky auto-disabled. Not \&quot;the channel is dead\&quot;: other configured URLs still receive events. Send/receive are unaffected. 
+    /// </summary>
+    bool isHaveDisabledWebhooks() const;
+    bool haveDisabledWebhooksIsSet() const;
+    void unsetHaveDisabledWebhooks();
+    void setHaveDisabledWebhooks(bool value);
+
+    /// <summary>
+    /// Compatibility scalar for **one** URL (first sticky-disabled, else first configured). Not the channel as a whole. Prefer &#x60;webhookStatuses[].circuitState&#x60;. 
+    /// </summary>
+    CircuitStateEnum getCircuitState() const;
+    bool circuitStateIsSet() const;
+    void unsetCircuitState();
+    void setCircuitState(const CircuitStateEnum value);
+
+    /// <summary>
+    /// Last qualifying fail reason of the summary URL (same URL as &#x60;circuitState&#x60;)
+    /// </summary>
+    utility::string_t getReason() const;
+    bool reasonIsSet() const;
+    void unsetReason();
+    void setReason(const utility::string_t& value);
+
+    /// <summary>
+    /// Diagnostic only (summary URL). Qualifying failures in the rolling ~10 minute breaker window — not lifetime and not customer retries. Prefer &#x60;webhookStatuses&#x60; / &#x60;disabledWebhooks&#x60;. 
+    /// </summary>
+    int32_t getFails() const;
+    bool failsIsSet() const;
+    void unsetFails();
+    void setFails(int32_t value);
+
+    /// <summary>
+    /// Diagnostic only (summary URL). Failed recovery probes (≈15 min → 1 h → 6 h). Sticky disable after 3. Not a blind unblock timer. 
+    /// </summary>
+    int32_t getTrips() const;
+    bool tripsIsSet() const;
+    void unsetTrips();
+    void setTrips(int32_t value);
+
+    /// <summary>
+    /// Epoch milliseconds when the summary URL became sticky-disabled
+    /// </summary>
+    int32_t getDisabledAt() const;
+    bool disabledAtIsSet() const;
+    void unsetDisabledAt();
+    void setDisabledAt(int32_t value);
+
+    /// <summary>
+    /// Diagnostic only (summary URL). Epoch ms of the first fail in the current ~10 minute window (pairs with &#x60;fails&#x60;). 
+    /// </summary>
+    int32_t getFirstFailAt() const;
+    bool firstFailAtIsSet() const;
+    void unsetFirstFailAt();
+    void setFirstFailAt(int32_t value);
+
+    /// <summary>
+    /// Last HTTP status from the summary URL, when known
+    /// </summary>
+    int32_t getLastStatus() const;
+    bool lastStatusIsSet() const;
+    void unsetLastStatus();
+    void setLastStatus(int32_t value);
+
+    /// <summary>
+    /// Epoch milliseconds of the next half-open probe for the summary URL, if any
+    /// </summary>
+    int32_t getNextProbeAt() const;
+    bool nextProbeAtIsSet() const;
+    void unsetNextProbeAt();
+    void setNextProbeAt(int32_t value);
+
+    /// <summary>
+    /// Currently configured URLs that are sticky auto-disabled (subset of &#x60;webhookUrl&#x60;). Does not include leftover URLs that are no longer configured. 
+    /// </summary>
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> getDisabledWebhooks() const;
+    bool disabledWebhooksIsSet() const;
+    void unsetDisabledWebhooks();
+    void setDisabledWebhooks(const std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>& value);
+
+    /// <summary>
+    /// One entry per currently configured URL. Prefer this over top-level &#x60;haveDisabledWebhooks&#x60; / &#x60;circuitState&#x60; when more than one webhook is set. 
+    /// </summary>
+    std::vector<std::shared_ptr<WebhookUrlStatus>> getWebhookStatuses() const;
+    bool webhookStatusesIsSet() const;
+    void unsetWebhookStatuses();
+    void setWebhookStatuses(const std::vector<std::shared_ptr<WebhookUrlStatus>>& value);
 
 
     /// <summary>
@@ -79,8 +186,40 @@ public:
     void addAdditionalProperty(const utility::string_t& key, const web::json::value& value);
 
 protected:
-    utility::string_t m_WebhookUrl;
-    bool m_WebhookUrlIsSet;
+    boost::optional<std::shared_ptr<GetWebhook_200_response_webhookUrl>> m_WebhookUrl;
+
+    bool m_HaveDisabledWebhooks;
+    bool m_HaveDisabledWebhooksIsSet;
+
+    CircuitStateEnum m_CircuitState;
+    bool m_CircuitStateIsSet;
+
+    utility::string_t m_Reason;
+    bool m_ReasonIsSet;
+
+    int32_t m_Fails;
+    bool m_FailsIsSet;
+
+    int32_t m_Trips;
+    bool m_TripsIsSet;
+
+    int32_t m_DisabledAt;
+    bool m_DisabledAtIsSet;
+
+    int32_t m_FirstFailAt;
+    bool m_FirstFailAtIsSet;
+
+    int32_t m_LastStatus;
+    bool m_LastStatusIsSet;
+
+    int32_t m_NextProbeAt;
+    bool m_NextProbeAtIsSet;
+
+    std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>> m_DisabledWebhooks;
+    bool m_DisabledWebhooksIsSet;
+
+    std::vector<std::shared_ptr<WebhookUrlStatus>> m_WebhookStatuses;
+    bool m_WebhookStatusesIsSet;
 
     std::map<utility::string_t, web::json::value> m_AdditionalProperties;
     bool m_AdditionalPropertiesIsSet;

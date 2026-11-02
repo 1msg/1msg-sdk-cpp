@@ -1,6 +1,6 @@
 /**
  * 1MSG WhatsApp Business API (Public)
- * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** All requests require `token` query parameter with JWT or API key.  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
+ * Public client API for sending messages, managing groups, flows, and templates.  This is the API exposed to end customers via platform.1msg.io  **Authentication:** Pass the channel token in **one** place. The API checks JSON body (`token`), then query string (`?token=`), then `Authorization: Bearer` header (preferred in production).  **Documentation:** https://help.1msg.io/platform-1msg/getting-start/quick-start **API Docs:** https://docs.1msg.io/ 
  *
  * The version of the OpenAPI document: 1.0.0
  * Contact: support@1msg.io
@@ -182,8 +182,14 @@ pplx::task<std::shared_ptr<CreateReadMessage_200_response>> MessagingApi::create
         return localVarResult;
     });
 }
-pplx::task<void> MessagingApi::createUploadMedia(utility::string_t token, boost::optional<std::map<utility::string_t, std::shared_ptr<AnyType>>> requestBody) const
+pplx::task<std::shared_ptr<CreateUploadMedia_200_response>> MessagingApi::createUploadMedia(utility::string_t token, std::shared_ptr<CreateUploadMedia_request> createUploadMediaRequest) const
 {
+
+    // verify the required parameter 'createUploadMediaRequest' is set
+    if (createUploadMediaRequest == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'createUploadMediaRequest' when calling MessagingApi->createUploadMedia"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -195,6 +201,7 @@ pplx::task<void> MessagingApi::createUploadMedia(utility::string_t token, boost:
     std::map<utility::string_t, std::shared_ptr<HttpContent>> localVarFileParams;
 
     std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
+    localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
 
     utility::string_t localVarResponseHttpContentType;
 
@@ -236,8 +243,8 @@ pplx::task<void> MessagingApi::createUploadMedia(utility::string_t token, boost:
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
-        if (requestBody)
-            localVarJson = ModelBase::toJson(*requestBody);
+        localVarJson = ModelBase::toJson(createUploadMediaRequest);
+        
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -247,14 +254,9 @@ pplx::task<void> MessagingApi::createUploadMedia(utility::string_t token, boost:
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
+        if(createUploadMediaRequest.get())
         {
-            std::map<utility::string_t, web::json::value> localVarJsonMap;
-            for( auto& localVarItem : requestBody.get() )
-            {
-                web::json::value jval;
-                localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
-            }
-            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("requestBody"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
+            createUploadMediaRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("createUploadMediaRequest"));
         }
         
 
@@ -315,7 +317,25 @@ pplx::task<void> MessagingApi::createUploadMedia(utility::string_t token, boost:
     })
     .then([=, this](utility::string_t localVarResponse)
     {
-        return void();
+        std::shared_ptr<CreateUploadMedia_200_response> localVarResult(new CreateUploadMedia_200_response());
+
+        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        {
+            web::json::value localVarJson = web::json::value::parse(localVarResponse);
+
+            ModelBase::fromJson(localVarJson, localVarResult);
+        }
+        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // {
+        // TODO multipart response parsing
+        // }
+        else
+        {
+            throw ApiException(500
+                , utility::conversions::to_string_t("error calling createUploadMedia: unsupported response type"));
+        }
+
+        return localVarResult;
     });
 }
 pplx::task<std::shared_ptr<SuccessResponse>> MessagingApi::deleteMedia(utility::string_t token, utility::string_t mediaId) const
@@ -741,7 +761,7 @@ pplx::task<std::shared_ptr<GetMmLiteStatus_200_response>> MessagingApi::getMmLit
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<ListMessages_200_response>> MessagingApi::listMessages(utility::string_t token) const
+pplx::task<std::shared_ptr<ListMessages_200_response>> MessagingApi::listMessages(utility::string_t token, boost::optional<utility::string_t> chatId, boost::optional<int32_t> limit, boost::optional<bool> last, boost::optional<int32_t> lastMessageNumber, boost::optional<int32_t> firstMessageNumber, boost::optional<int32_t> minTime, boost::optional<int32_t> maxTime, boost::optional<utility::string_t> msgId) const
 {
 
 
@@ -784,6 +804,38 @@ pplx::task<std::shared_ptr<ListMessages_200_response>> MessagingApi::listMessage
 
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
+    }
+    if (chatId)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("chatId")] = ApiClient::parameterToString(*chatId);
+    }
+    if (limit)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("limit")] = ApiClient::parameterToString(*limit);
+    }
+    if (last)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("last")] = ApiClient::parameterToString(*last);
+    }
+    if (lastMessageNumber)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("lastMessageNumber")] = ApiClient::parameterToString(*lastMessageNumber);
+    }
+    if (firstMessageNumber)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("firstMessageNumber")] = ApiClient::parameterToString(*firstMessageNumber);
+    }
+    if (minTime)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("min_time")] = ApiClient::parameterToString(*minTime);
+    }
+    if (maxTime)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("max_time")] = ApiClient::parameterToString(*maxTime);
+    }
+    if (msgId)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("msgId")] = ApiClient::parameterToString(*msgId);
     }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
@@ -1316,7 +1368,7 @@ pplx::task<std::shared_ptr<MessageSentResponse>> MessagingApi::sendButton(utilit
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<MessageSentResponse>> MessagingApi::sendCarousel(utility::string_t token, std::vector<std::shared_ptr<Object>> params, boost::optional<utility::string_t> body, boost::optional<utility::string_t> quotedMsgId, boost::optional<utility::string_t> chatId, boost::optional<int32_t> phone) const
+pplx::task<std::shared_ptr<MessageSentResponse>> MessagingApi::sendCarousel(utility::string_t token, boost::optional<utility::string_t> body, boost::optional<std::vector<std::map<utility::string_t, std::shared_ptr<AnyType>>>> cards, boost::optional<std::vector<std::shared_ptr<Object>>> params, boost::optional<utility::string_t> quotedMsgId, boost::optional<utility::string_t> chatId, boost::optional<int32_t> phone) const
 {
 
 
@@ -1362,12 +1414,17 @@ pplx::task<std::shared_ptr<MessageSentResponse>> MessagingApi::sendCarousel(util
     {
         localVarQueryParams[utility::conversions::to_string_t("token")] = ApiClient::parameterToString(token);
     }
-    {
-        localVarFormParams[ utility::conversions::to_string_t("params") ] = ApiClient::parameterToString(params);
-    }
     if (body)
     {
         localVarFormParams[ utility::conversions::to_string_t("body") ] = ApiClient::parameterToString(*body);
+    }
+    if (cards)
+    {
+        localVarFormParams[ utility::conversions::to_string_t("cards") ] = ApiClient::parameterToString(*cards);
+    }
+    if (params)
+    {
+        localVarFormParams[ utility::conversions::to_string_t("params") ] = ApiClient::parameterToString(*params);
     }
     if (quotedMsgId)
     {
@@ -3061,8 +3118,14 @@ pplx::task<std::shared_ptr<MessageSentResponse>> MessagingApi::sendPaymentReques
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<MessageSentResponse>> MessagingApi::sendProduct(utility::string_t token, boost::optional<std::map<utility::string_t, std::shared_ptr<AnyType>>> requestBody) const
+pplx::task<std::shared_ptr<MessageSentResponse>> MessagingApi::sendProduct(utility::string_t token, std::shared_ptr<SendProduct_request> sendProductRequest) const
 {
+
+    // verify the required parameter 'sendProductRequest' is set
+    if (sendProductRequest == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter 'sendProductRequest' when calling MessagingApi->sendProduct"));
+    }
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
@@ -3116,8 +3179,8 @@ pplx::task<std::shared_ptr<MessageSentResponse>> MessagingApi::sendProduct(utili
         localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
         web::json::value localVarJson;
 
-        if (requestBody)
-            localVarJson = ModelBase::toJson(*requestBody);
+        localVarJson = ModelBase::toJson(sendProductRequest);
+        
 
         localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
     }
@@ -3127,14 +3190,9 @@ pplx::task<std::shared_ptr<MessageSentResponse>> MessagingApi::sendProduct(utili
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
+        if(sendProductRequest.get())
         {
-            std::map<utility::string_t, web::json::value> localVarJsonMap;
-            for( auto& localVarItem : requestBody.get() )
-            {
-                web::json::value jval;
-                localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
-            }
-            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("requestBody"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
+            sendProductRequest->toMultipart(localVarMultipart, utility::conversions::to_string_t("sendProductRequest"));
         }
         
 
