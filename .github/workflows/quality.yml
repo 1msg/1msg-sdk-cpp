@@ -15,23 +15,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10.34.9"
+          dest: ${{ runner.temp }}/pnpm-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.job }}
+          run_install: false
       - uses: actions/setup-node@v4
         with:
-          node-version: "24.19.0"
+          node-version: "24.22.2"
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "24"
-      - run: npm ci
-      - run: npm --prefix tools/quality ci
-      - run: npm run test:quality
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --dir tools/quality --ignore-workspace install --lockfile-dir "$PWD/quality/tooling" --frozen-lockfile --ignore-scripts
+      - run: pnpm run test:quality
       - run: node tools/quality/run.mjs guards
-      - run: npm run format:check
-      - run: npm run lint:static
-      - run: npm run lint:unused:production
-      - run: npm run lint:unused:full
-      - run: npm run lint:duplicates
-      - run: npm run lint:duplicates:full
+      - run: pnpm run format:check
+      - run: pnpm run lint:static
+      - run: pnpm run lint:unused:production
+      - run: pnpm run lint:unused:full
+      - run: pnpm run lint:duplicates
+      - run: pnpm run lint:duplicates:full
       - run: node quality/generator/generate.mjs
       - run: node quality/generator/verify-negative.mjs
       - run: sudo apt-get update && sudo apt-get install -y libcpprest-dev libboost-all-dev cmake ninja-build
