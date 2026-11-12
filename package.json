@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "24.22.x"
+    "node": "26.13.x"
   },
-  "packageManager": "pnpm@10.34.9",
+  "packageManager": "pnpm@12.18.0",
   "scripts": {
     "format:check": "node tools/quality/node_modules/prettier/bin/prettier.cjs --check \"quality/**/*.{js,jsx,mjs,cjs}\" \"*.{js,jsx,mjs,cjs}\" package.json knip.json .github/workflows/quality.yml AGENTS.md",
     "format": "node tools/quality/node_modules/prettier/bin/prettier.cjs --write \"quality/**/*.{js,jsx,mjs,cjs}\" \"*.{js,jsx,mjs,cjs}\" package.json knip.json .github/workflows/quality.yml AGENTS.md",
