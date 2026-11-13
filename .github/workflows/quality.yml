@@ -12,6 +12,9 @@ jobs:
   contract:
     runs-on: [self-hosted, 1msg-ci-heavy]
     timeout-minutes: 45
+    env:
+      RUNNER_TOOL_CACHE: /tmp/sdk-tools-${{ github.run_id }}-${{ github.run_attempt }}
+      SDK_INSTALL_PREFIX: /tmp/sdk-install-${{ github.run_id }}-${{ github.run_attempt }}
     # Native packages are installed only inside this disposable job container.
     container:
       image: ubuntu:24.04@sha256:2198e4c65076e9cb0b3d695219df667c0e3b0072da64ca3c2648aca17dcecaf5
@@ -29,6 +32,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: "26.13.1"
@@ -57,8 +61,8 @@ jobs:
       - run: cmake -S quality -B .quality-build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=20
       - run: cmake --build .quality-build --parallel 2
       - run: ctest --test-dir .quality-build --output-on-failure
-      - run: cmake --install .quality-build/sdk --prefix "${{ runner.temp }}/sdk-install-${{ github.run_id }}-${{ github.run_attempt }}"
-      - run: cmake -S quality/consumer -B .quality-build/consumer -DCMAKE_PREFIX_PATH="${{ runner.temp }}/sdk-install-${{ github.run_id }}-${{ github.run_attempt }}"
+      - run: cmake --install .quality-build/sdk --prefix "$SDK_INSTALL_PREFIX"
+      - run: cmake -S quality/consumer -B .quality-build/consumer -DCMAKE_PREFIX_PATH="$SDK_INSTALL_PREFIX"
       - run: cmake --build .quality-build/consumer --parallel 2
       - run: ctest --test-dir .quality-build/consumer --output-on-failure
       - uses: actions/upload-artifact@v4
@@ -69,11 +73,21 @@ jobs:
             quality/generator/provenance.json
             quality/generator/inventory.json
             quality/reports/
-      - name: Restore this checkout ownership for later jobs
+      - name: Restore ownership of this job's mounted files
         if: always()
+        env:
+          PNPM_INSTALL_DIR: ${{ runner.temp }}/pnpm-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.job }}
         run: |
           if [ -n "${CI_WORKSPACE_OWNER:-}" ]; then
-            chown -hR "$CI_WORKSPACE_OWNER" "$GITHUB_WORKSPACE"
+            for directory in "$GITHUB_WORKSPACE" "$PNPM_INSTALL_DIR"; do
+              if [ -d "$directory" ]; then
+                chown -hR "$CI_WORKSPACE_OWNER" "$directory"
+              fi
+            done
+            # GitHub mounts only this job's temporary home at /github/home.
+            if [ "$HOME" = /github/home ]; then
+              chown -hR "$CI_WORKSPACE_OWNER" "$HOME"
+            fi
           fi
   quality-required:
     if: always()
