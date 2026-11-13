@@ -10,8 +10,24 @@ concurrency:
   cancel-in-progress: true
 jobs:
   contract:
-    runs-on: ubuntu-24.04
+    # Fork code needs maintainer review and an owned branch before shared-runner execution.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, 1msg-ci-heavy]
+    timeout-minutes: 45
+    # Native packages are installed only inside this disposable job container.
+    container:
+      image: ubuntu:24.04@sha256:2198e4c65076e9cb0b3d695219df667c0e3b0072da64ca3c2648aca17dcecaf5
+    defaults:
+      run:
+        shell: bash
     steps:
+      - name: Prepare the isolated native toolchain environment
+        run: |
+          echo "CI_WORKSPACE_OWNER=$(stat -c '%u:%g' "$GITHUB_WORKSPACE/..")" >> "$GITHUB_ENV"
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            build-essential ca-certificates curl git gzip lsb-release sudo tar unzip xz-utils
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -39,12 +55,12 @@ jobs:
       - run: pnpm run lint:duplicates:full
       - run: node quality/generator/generate.mjs
       - run: node quality/generator/verify-negative.mjs
-      - run: sudo apt-get update && sudo apt-get install -y libcpprest-dev libboost-all-dev cmake ninja-build
+      - run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libcpprest-dev libboost-all-dev cmake ninja-build
       - run: cmake -S quality -B .quality-build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=20
       - run: cmake --build .quality-build --parallel 2
       - run: ctest --test-dir .quality-build --output-on-failure
-      - run: cmake --install .quality-build/sdk --prefix "${{ runner.temp }}/sdk-install"
-      - run: cmake -S quality/consumer -B .quality-build/consumer -DCMAKE_PREFIX_PATH="${{ runner.temp }}/sdk-install"
+      - run: cmake --install .quality-build/sdk --prefix "${{ runner.temp }}/sdk-install-${{ github.run_id }}-${{ github.run_attempt }}"
+      - run: cmake -S quality/consumer -B .quality-build/consumer -DCMAKE_PREFIX_PATH="${{ runner.temp }}/sdk-install-${{ github.run_id }}-${{ github.run_attempt }}"
       - run: cmake --build .quality-build/consumer --parallel 2
       - run: ctest --test-dir .quality-build/consumer --output-on-failure
       - uses: actions/upload-artifact@v4
@@ -55,11 +71,17 @@ jobs:
             quality/generator/provenance.json
             quality/generator/inventory.json
             quality/reports/
+      - name: Restore this checkout ownership for later jobs
+        if: always()
+        run: |
+          if [ -n "${CI_WORKSPACE_OWNER:-}" ]; then
+            chown -hR "$CI_WORKSPACE_OWNER" "$GITHUB_WORKSPACE"
+          fi
   quality-required:
     if: always()
     needs: [contract]
-    runs-on: ubuntu-24.04
+    runs-on: [self-hosted, 1msg-ci]
     steps:
       - env:
-          RESULTS: ${{ toJSON(needs) }}
-        run: node -e 'const jobs=JSON.parse(process.env.RESULTS); if(!Object.values(jobs).every(job=>job.result==="success")) process.exit(1)'
+          CONTRACT_RESULT: ${{ needs.contract.result }}
+        run: test "$CONTRACT_RESULT" = success
