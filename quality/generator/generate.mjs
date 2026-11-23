@@ -13,6 +13,13 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+const platformClientPaths = new Set([
+  "platform_client.go",
+  "lib/PlatformClient.php",
+  "include/one-msg-sdk/PlatformClient.h",
+  "src/PlatformClient.cpp",
+  "Sources/OneMsgSdk/PlatformClient.swift",
+]);
 const directory = dirname(fileURLToPath(import.meta.url));
 const root = resolve(directory, "../..");
 const config = JSON.parse(
@@ -75,8 +82,10 @@ async function inventory(directory, prefix = "") {
                 !path.endsWith("_test.go")
               : item === path,
         )
-      )
+      ) {
+        if (platformClientPaths.has(path)) continue;
         result[path] = hash(await readFile(join(directory, entry.name)));
+      }
     }
   }
   return result;
